@@ -16,8 +16,8 @@ app.get('/', (req, res) => {
 });
 // db connection
 const db = require("./models/dbconnexion");
-// const ApplicationRoute = require('./routes/application.route');
-// app.use("/application", ApplicationRoute);
+const ApplicationRoute = require('./routes/application.route');
+app.use("/application", ApplicationRoute);
 app.listen(port, () => {
     return console.log(`Express is listening at http://localhost:${port}`);
 });
