@@ -14,6 +14,7 @@ router.get('/:location/', checkData.checkIfCollectionExist, itemController.getAl
 router.get('/:location/:id', checkData.checkIfCollectionExist, itemController.getItemFromLocation);
 router.post('/createLocation/:location', checkData.checkIfCollectionAlreadyExist, locationController.createLocation);
 router.post('/:location/addItem/', checkData.checkIfCollectionExist, itemController.createItem);
+router.post('/:location/addItemByBarcode/:barcode', checkData.checkIfCollectionExist, itemController.createItemByBarcode);
 router.delete('/:location/deleteItem/:id', checkData.checkIfCollectionExist, itemController.deleteItem);
 router.delete('/deleteLocation/:location', checkData.checkIfCollectionExist, locationController.deleteLocation);
 router.patch('/:location/updateItem/:id', checkData.checkIfCollectionExist, itemController.updateAnItem);

@@ -9,6 +9,5 @@ const ItemSchema = new Schema({
     item_barcode: Number,
     item_quantity: Number,
 });
-export const meh = 2;
 
 module.exports = ItemSchema

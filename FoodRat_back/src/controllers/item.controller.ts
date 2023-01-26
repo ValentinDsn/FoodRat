@@ -1,7 +1,8 @@
+import axios from 'axios';
 // @ts-ignore
 const mongoose = require("mongoose")
-
 const ItemSchema = require("../models/item.model")
+const foodFact= require("../controllers/foodfactAPI.controllers")
 
 //Create a item
 exports.createItem = (req, res) => {
@@ -17,6 +18,30 @@ exports.createItem = (req, res) => {
     });
 };
 
+//Create a item
+exports.createItemByBarcode = async (req, res) => {
+    const item_location=req.params.location;
+    const ItemModel = mongoose.model(item_location, ItemSchema);
+
+
+    foodFact.getProductInfo(req.params.barcode).then((response) => {
+        const item = new ItemModel({
+            item_name:response.products[0]["product_name"],
+            item_barcode:response.products[0]["code"],
+            item_quantity:req.body.item_quantity,
+            });
+
+        item.save(function (err, savedItem) {
+            if (err)
+                throw err;
+            res.json({"id": savedItem._id});
+        });
+
+    }).catch(error => {console.log(error);
+        res.status(500).send(error);
+        });
+};
+
 exports.getAllItems = async (req,res) => {
     let allItems : string[] = [];
     let collectionName : string[] = [];
@@ -25,7 +50,7 @@ exports.getAllItems = async (req,res) => {
     await new Promise((resolve, reject) => {
         mongoose.connection.db.listCollections().toArray((err, names) => {
             collectionName = names.map(collection => collection.name);
-            resolve();
+            resolve(0);
         });
     });
 
