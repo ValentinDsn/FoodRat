@@ -7,11 +7,14 @@ const locationController = require("../controllers/location.controller");
 const express = require('express');
 // @ts-ignore
 const router = express.Router({ mergeParams: true });
+// @ts-ignore
+const checkData = require('../middlewares/checkData');
 router.get('/', itemController.getAllItems);
-// router.get('/:location/', itemController.getAllItemsFromLocation);
-// router.get('/:location/:id', itemController.getItemFromLocation);
-// router.post('/createLocation', locationController.createLocation);
-router.post('/:location/addItem/', itemController.createItem);
-router.delete('/:location/deleteItem/:id', itemController.deleteItem);
-router.patch('/:location/updateItem/:id', itemController.updateAnItem);
+router.get('/:location/', checkData.checkIfCollectionExist, itemController.getAllItemsFromLocation);
+router.get('/:location/:id', checkData.checkIfCollectionExist, itemController.getItemFromLocation);
+router.post('/createLocation/:location', checkData.checkIfCollectionAlreadyExist, locationController.createLocation);
+router.post('/:location/addItem/', checkData.checkIfCollectionExist, itemController.createItem);
+router.delete('/:location/deleteItem/:id', checkData.checkIfCollectionExist, itemController.deleteItem);
+router.delete('/deleteLocation/:location', checkData.checkIfCollectionExist, locationController.deleteLocation);
+router.patch('/:location/updateItem/:id', checkData.checkIfCollectionExist, itemController.updateAnItem);
 module.exports = router;

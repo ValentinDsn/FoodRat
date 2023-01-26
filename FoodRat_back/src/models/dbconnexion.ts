@@ -12,7 +12,7 @@ mongoose.connect(url_mongo, {
     useUnifiedTopology: true
 });
 
-const db = mongoose.connection;
+export const db = mongoose.connection;
 
 //Message de connexion
 db.on('error', console.error.bind(console, 'Erreur lors de la connexion'));
