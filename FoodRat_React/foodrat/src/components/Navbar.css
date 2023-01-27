@@ -45,6 +45,23 @@ header .nav-btn {
     opacity: 0;
     font-size: 1.8rem;
 }
+.main-btn {
+    padding: 5px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--textColor);
+    visibility: visible;
+    opacity: 1;
+    font-size: 1.2rem;
+}
+
+.btn-img {
+    margin: 3px 6px;
+    float: left;
+}
+
 
 header div,
 nav {
@@ -54,13 +71,6 @@ nav {
 .logo {
     width: 50px;
     height: auto;
-}
-
-header .nav-btn {
-    margin: 0 1rem;
-    font-size: 1rem;
-    visibility: visible;
-    opacity: 1;
 }
 
 

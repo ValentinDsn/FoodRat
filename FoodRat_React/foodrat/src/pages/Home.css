@@ -1,0 +1,35 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Titillium Web", sans-serif;
+
+}
+
+
+.MainText{
+    margin-top: 50px;
+    text-align: center;
+    color: #29335c;
+}
+
+.SecondaryText{
+    text-align: center;
+    color: #29335c;
+}
+
+img{
+    max-width: 90%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-top: 50px;
+}
+
+.bottom {
+    position: fixed;
+    text-align: center;
+    bottom: 0;
+    width: 100%;
+}
