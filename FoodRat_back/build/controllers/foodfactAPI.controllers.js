@@ -17,7 +17,6 @@ const axios_1 = __importDefault(require("axios"));
 const getProductInfo = (barcode) => __awaiter(void 0, void 0, void 0, function* () {
     return yield axios_1.default.get('https://world.openfoodfacts.org/api/v2/search?fields=code,product_name&code=' + barcode)
         .then(response => {
-        console.log("la");
         console.log(response.data);
         return response.data;
     })
@@ -27,3 +26,13 @@ const getProductInfo = (barcode) => __awaiter(void 0, void 0, void 0, function* 
     });
 });
 exports.getProductInfo = getProductInfo;
+exports.getProductInfoFromApi = (req, res) => {
+    return axios_1.default.get('https://world.openfoodfacts.org/api/v2/search?fields=code,product_name,nutriscore_grade,nutrient_levels&code==' + req.params.barcode)
+        .then(response => {
+        res.send(response.data.products[0]);
+    })
+        .catch(error => {
+        console.log(error);
+        return error;
+    });
+};

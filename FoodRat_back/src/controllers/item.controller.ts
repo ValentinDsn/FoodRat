@@ -6,6 +6,7 @@ const foodFact= require("../controllers/foodfactAPI.controllers")
 
 //Create a item
 exports.createItem = (req, res) => {
+    console.log("meh");
     const item_location=req.params.location;
     const ItemModel = mongoose.model(item_location, ItemSchema);
     const item = new ItemModel(req.body);

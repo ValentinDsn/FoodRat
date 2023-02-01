@@ -13,6 +13,21 @@ p {
     font-weight: bold;
 }
 
+P.RequiredText{
+    margin-top: 30px;
+    text-align: left;
+    color: #29335c;
+    font-weight: lighter;
+    font-size: small;
+}
+
+.DialogContent p {
+    margin-top: 30px;
+    text-align: center;
+    color: #29335c;
+    font-weight: bold;
+}
+
 video {
     max-width: 40%;
     height: auto;

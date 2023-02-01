@@ -3,6 +3,8 @@ const itemController = require("../controllers/item.controller");
 // @ts-ignore
 const locationController = require("../controllers/location.controller");
 // @ts-ignore
+const apiController = require("../controllers/foodfactAPI.controllers");
+// @ts-ignore
 const express = require('express');
 // @ts-ignore
 const router = express.Router({ mergeParams: true });
@@ -10,8 +12,12 @@ const router = express.Router({ mergeParams: true });
 const checkData = require('../middlewares/checkData');
 
 router.get('/', itemController.getAllItems);
+router.get('/getAllLocations', locationController.getAllLocation);
+router.get('/getProductInfoFromApi/:barcode',apiController.getProductInfoFromApi)
 router.get('/:location/', checkData.checkIfCollectionExist, itemController.getAllItemsFromLocation);
 router.get('/:location/:id', checkData.checkIfCollectionExist, itemController.getItemFromLocation);
+
+
 
 router.post('/createLocation/:location', checkData.checkIfCollectionAlreadyExist,locationController.createLocation);
 router.post('/:location/addItem/', checkData.checkIfCollectionExist, itemController.createItem);
