@@ -11,6 +11,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { components } from "react-select";
 import { default as ReactSelect } from "react-select";
+import no_image from '../assets/img/no_image.jpg';
+import {useMemo} from "react";
 
 
 
@@ -21,6 +23,8 @@ function Scan (){
 
     const [open, setOpen] = React.useState(false);
 
+    const [openManualAdd, setOpenManualAdd] = React.useState(false);
+
     const [openPopup, setOpenPopup] = React.useState(false);
 
     const [barcode, setBarcode] = React.useState(false);
@@ -29,30 +33,29 @@ function Scan (){
 
     const [optionSelected, setOptionSelected] = React.useState(false);
 
-    const initialProductDetails = {
-        product_name:undefined,
-        nutriscore_grade:undefined,
-    }
+    const initialProductDetails = useMemo(() => {
+        return {
+            product_name:undefined,
+            nutriscore_grade:undefined,
+            image_front_url:undefined,
+            image_front_small_url:undefined,
+        }
+    }, [])
+
     const [productDetails, setproductDetails] = React.useState(initialProductDetails)
 
     useEffect(() => {
         if(productDetails!==initialProductDetails){
             Open()
         }
-    },[productDetails])
-
-    useEffect(() => {
-        getCollectionsNames()
-    },[])
-
+    },[productDetails, initialProductDetails])
 
     function arraysEqual(a1,a2) {
         /* WARNING: arrays must not contain {objects} or behavior may be undefined */
         return JSON.stringify(a1)===JSON.stringify(a2);
-
     }
 
-    const getCollectionsNames = () => {
+    const getCollectionsNames = React.useCallback(() => {
         axios.get('http://localhost:3000/application/getAllLocations')
             .then(response => {
                 const response_data = response.data
@@ -63,19 +66,39 @@ function Scan (){
                     previous_data=response_data.slice();
                 }
             })
-    }
+    },[])
+
+    useEffect(() => {
+        getCollectionsNames();
+    },[getCollectionsNames])
 
     const getProductInfos = (barcode) => {
-        axios.get('https://world.openfoodfacts.org/api/v2/search?fields=code,product_name,nutriscore_grade,nutrient_levels&code='+ barcode)
-            .then(response => {
-                const respData = response.data;
-                if (!(Object.keys(respData).length === 0 && Object.getPrototypeOf(respData) === Object.prototype)) {
-                    setproductDetails({
-                        product_name: respData.products[0].product_name,
-                        nutriscore_grade: respData.products[0].nutriscore_grade,
-                    });
-                }
-            })
+            return axios.get('http://localhost:3000/application/getProductInfoFromApi/'+ barcode)
+                .then(response => {
+                    const respData = response.data;
+                    //If there is a response from the foodfact API
+                    if (!(Object.keys(respData).length === 0 && Object.getPrototypeOf(respData) === Object.prototype && respData.count===1)) {
+                        setproductDetails({
+                            product_name: respData.products[0].product_name,
+                            nutriscore_grade: respData.products[0].nutriscore_grade,
+                            image_front_url:respData.products[0].image_front_url,
+                            image_front_small_url:respData.products[0].image_front_small_url,
+                        });
+                        //If there is no image with the product
+                        if(!respData.products[0].image_front_url){
+                            setproductDetails({
+                                product_name: respData.products[0].product_name,
+                                nutriscore_grade: respData.products[0].nutriscore_grade,
+                                image_front_small_url:no_image,
+
+                            })
+                        }
+                    }
+                })
+                //If link not available
+                .catch(() => {
+                    OpenManualAdd();
+                });
     }
 
     const Open = () => {
@@ -86,10 +109,15 @@ function Scan (){
         setOpenPopup(true);
     };
 
+    const OpenManualAdd = () => {
+        getCollectionsNames();
+        setOpenManualAdd(true);
+    };
+
     const isFormValid = () => {
         if (optionSelected.value &&
             document.getElementById("name").value &&
-            document.getElementById("expiration_date").value){
+            document.getElementById("quantity").value){
             return true
         }
     }
@@ -102,8 +130,11 @@ function Scan (){
                 item_quantity: document.getElementById("quantity").value,
                 item_expiration_date: document.getElementById("expiration_date").value,
                 item_nutriscore_grade:productDetails.nutriscore_grade,
+                item_img:productDetails.image_front_url,
+                item_img_small:productDetails.image_front_small_url,
             }).then( () =>{
                 handleClose();
+                handleCloseManualAdd();
             })
         } else {
             OpenPopup();
@@ -115,6 +146,10 @@ function Scan (){
     };
     const handleClosePopup = () => {
         setOpenPopup(false);
+    };
+
+    const handleCloseManualAdd = () => {
+        setOpenManualAdd(false);
     };
 
 
@@ -133,11 +168,12 @@ function Scan (){
         );
     };
 
-
     return(
             <div>
-                <BarcodeScannerComponent
+                <div className={"Meh"}></div>
+                    <BarcodeScannerComponent
                     onUpdate={async (err, result) => {
+
                         if (result){
                             setBarcode(result.text)
                             getCollectionsNames();
@@ -147,7 +183,12 @@ function Scan (){
                         else setData("No result yet");
                     }}
                 />
+
+
                 <p>Result: {data}</p>
+                <div className={"center"}>
+                    <Button onClick={OpenManualAdd} className={"ManualButton"}>Manual Add</Button>
+                </div>
 
                 <Dialog open={open} onClose={handleClose}>
                     <DialogTitle>Add product</DialogTitle>
@@ -155,6 +196,7 @@ function Scan (){
                         <DialogContentText>
                             To add this product, please verify the information and add an expiration date if necessary.
                         </DialogContentText>
+                        <img className={"logo_Product"} src={productDetails.image_front_small_url} alt={"Logo"}/>
                         <TextField
                             style={{marginTop:50, marginRight:25}}
                             disabled
@@ -197,7 +239,7 @@ function Scan (){
                             autoFocus
                             margin="dense"
                             id="expiration_date"
-                            label="Expiration date *"
+                            label="Expiration date"
                             type="date"
                             fullWidth
                             variant="standard"
@@ -217,7 +259,6 @@ function Scan (){
                             }}
                         />
                         <p className={"RequiredText"}>* Required</p>
-
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>
@@ -235,6 +276,65 @@ function Scan (){
 
                     <DialogActions>
                         <Button onClick={handleClosePopup}>Ok</Button>
+                    </DialogActions>
+                </Dialog>
+
+                <Dialog open={openManualAdd} onClose={handleClose}>
+                    <DialogTitle>Add manually product</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            No barcode or barcode not reconize, please put the informations mannually.
+                        </DialogContentText>
+                    <TextField
+                        style={{marginTop:50}}
+                        label="Name"
+                        id="name"
+                        required={true}
+                    />
+                    <div
+                        style={{marginTop:40}}>
+                        <ReactSelect
+                            placeholder={"Choose a location..."}
+                            options={collectionList}
+                            closeMenuOnSelect={false}
+                            hideSelectedOptions={false}
+                            components={{
+                                Option
+                            }}
+                            onChange={setOptionSelected}
+                            allowSelectAll={true}
+                            value={optionSelected}
+                        />
+                    </div>
+                    <TextField
+                        style={{marginTop:20}}
+                        autoFocus
+                        margin="dense"
+                        id="expiration_date"
+                        label="Expiration date"
+                        type="date"
+                        fullWidth
+                        variant="standard"
+                        InputLabelProps={{ shrink: true }}
+                    />
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="quantity"
+                        label="Quantity"
+                        type="number"
+                        fullWidth
+                        required={true}
+                        variant="standard"
+                        InputProps={{
+                            inputProps: { min: 0 }
+                        }}
+                    />
+                    <p className={"RequiredText"}>* Required</p>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseManualAdd}>Cancel</Button>
+                        <Button onClick={add}>Add</Button>
                     </DialogActions>
                 </Dialog>
             </div>

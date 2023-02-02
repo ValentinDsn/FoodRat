@@ -10,6 +10,8 @@ const ItemSchema = new Schema({
     item_quantity: Number,
     item_expiration_date: Date,
     item_nutriscore_grade:String,
+    item_img:String,
+    item_img_small:String,
 });
 
 module.exports = ItemSchema

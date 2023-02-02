@@ -6,6 +6,10 @@
 
 }
 
+.MainImg{
+    max-width: 400px;
+    clip-path: circle();
+}
 
 .MainText{
     margin-top: 50px;

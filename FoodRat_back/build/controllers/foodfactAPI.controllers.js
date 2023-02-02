@@ -27,12 +27,12 @@ const getProductInfo = (barcode) => __awaiter(void 0, void 0, void 0, function* 
 });
 exports.getProductInfo = getProductInfo;
 exports.getProductInfoFromApi = (req, res) => {
-    return axios_1.default.get('https://world.openfoodfacts.org/api/v2/search?fields=code,product_name,nutriscore_grade,nutrient_levels&code==' + req.params.barcode)
+    return axios_1.default.get('https://world.openfoodfacts.org/api/v2/search?fields=code,product_name,nutriscore_grade,nutrient_levels,,image_front_url,image_front_small_url&code==' + req.params.barcode)
         .then(response => {
-        res.send(response.data.products[0]);
+        res.status(200).json(response.data);
     })
         .catch(error => {
         console.log(error);
-        return error;
+        res.status(404).json(error);
     });
 };

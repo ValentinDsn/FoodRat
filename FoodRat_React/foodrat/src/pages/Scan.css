@@ -6,6 +6,9 @@
 
 }
 
+
+
+
 p {
     margin-top: 30px;
     text-align: center;
@@ -13,12 +16,40 @@ p {
     font-weight: bold;
 }
 
-P.RequiredText{
+p.RequiredText{
     margin-top: 30px;
     text-align: left;
     color: #29335c;
     font-weight: lighter;
     font-size: small;
+}
+
+.logo_Product{
+    max-height: 200px;
+}
+
+.center {
+    margin-top: 50px;
+    position: absolute;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+button.ManualButton{
+    background-color: transparent;
+    border: 2px solid #29335c;
+    color: black;
+    padding: 5px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+button.ManualButton:hover {
+    background-color: #29335c;
+    color: white;
 }
 
 .DialogContent p {
@@ -36,4 +67,27 @@ video {
     margin-top: 50px;
     display: block;
 }
+
+.Meh {
+    clip-path: inset(35% 15% 35% 15%);
+    background: white;
+    width: 40%;
+    padding-bottom: 30%;
+    position: absolute;
+    left: 30%;
+    opacity: 0.4;
+}
+
+
+/*.Meh2 {*/
+/*    background: #1e293b;*/
+/*    width: 40%;*/
+/*    padding-bottom: 30%;*/
+/*    position: absolute;*/
+/*    left: 30%;*/
+/*    opacity: 0.7;*/
+/*}*/
+
+
+
 
