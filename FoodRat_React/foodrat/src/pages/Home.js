@@ -9,8 +9,11 @@ function Home (){
         <div>
             <h1 className={"MainText"}>Welcome to FoodRat</h1>
             <h3 className={"SecondaryText"}>The anti Food-Waste Application !</h3>
-            <img className={"MainImg"} src={foodWaste} alt="FoodWasteLogo" />
-            <h4 className={"bottom"}>© Valou</h4>
+            <img src={foodWaste} className={"MainImg"} alt="FoodWasteLogo" />
+            <div className={"bottom"}>
+                <h4 >© Valou</h4>
+            </div>
+
         </div>
         </main>
 

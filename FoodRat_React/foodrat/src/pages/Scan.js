@@ -13,7 +13,7 @@ import { components } from "react-select";
 import { default as ReactSelect } from "react-select";
 import no_image from '../assets/img/no_image.jpg';
 import {useMemo} from "react";
-
+import Snackbar from '@mui/material/Snackbar';
 
 
 let previous_data;
@@ -22,6 +22,8 @@ function Scan (){
     const [data, setData] = React.useState("No result yet");
 
     const [open, setOpen] = React.useState(false);
+
+    const [openSnackBar, setopenSnackBar] = React.useState(false);
 
     const [openManualAdd, setOpenManualAdd] = React.useState(false);
 
@@ -114,6 +116,10 @@ function Scan (){
         setOpenManualAdd(true);
     };
 
+    const OpenSnackBar = () => {
+        setopenSnackBar(true);
+    };
+
     const isFormValid = () => {
         if (optionSelected.value &&
             document.getElementById("name").value &&
@@ -135,6 +141,7 @@ function Scan (){
             }).then( () =>{
                 handleClose();
                 handleCloseManualAdd();
+                OpenSnackBar();
             })
         } else {
             OpenPopup();
@@ -152,6 +159,9 @@ function Scan (){
         setOpenManualAdd(false);
     };
 
+    const handleCloseSnackBar = () => {
+        setopenSnackBar(false);
+    };
 
     const Option = (props) => {
         return (
@@ -167,6 +177,7 @@ function Scan (){
             </div>
         );
     };
+
 
     return(
             <div>
@@ -184,8 +195,8 @@ function Scan (){
                     }}
                 />
 
+                <p className={"Barcode"}>Result: {data}</p>
 
-                <p>Result: {data}</p>
                 <div className={"center"}>
                     <Button onClick={OpenManualAdd} className={"ManualButton"}>Manual Add</Button>
                 </div>
@@ -196,22 +207,24 @@ function Scan (){
                         <DialogContentText>
                             To add this product, please verify the information and add an expiration date if necessary.
                         </DialogContentText>
-                        <img className={"logo_Product"} src={productDetails.image_front_small_url} alt={"Logo"}/>
+                        <div>
+                            <img className={"logo_Product"} src={productDetails.image_front_small_url} alt={"Logo"}/>
+                        </div>
                         <TextField
-                            style={{marginTop:50, marginRight:25}}
+                            style={{marginTop:30, marginRight:25}}
                             disabled
                             label="Barcode"
                             defaultValue={barcode}
                         />
                         <TextField
-                            style={{marginTop:50}}
+                            style={{marginTop:30}}
                             label="Name"
                             id="name"
                             required={true}
                             defaultValue={productDetails.product_name}
                         />
                         <TextField
-                            style={{marginTop:50}}
+                            style={{marginTop:30}}
                             disabled
                             label="Nutriscore"
                             defaultValue={productDetails.nutriscore_grade}
@@ -219,7 +232,7 @@ function Scan (){
 
                         />
                         <div
-                        style={{marginTop:40}}>
+                        style={{marginTop:30}}>
                             <ReactSelect
                                 placeholder={"Choose a location..."}
                                 options={collectionList}
@@ -337,6 +350,13 @@ function Scan (){
                         <Button onClick={add}>Add</Button>
                     </DialogActions>
                 </Dialog>
+
+                <Snackbar
+                    open={openSnackBar}
+                    autoHideDuration={3000}
+                    onClose={handleCloseSnackBar}
+                    message="Item created !"
+                />
             </div>
 
 

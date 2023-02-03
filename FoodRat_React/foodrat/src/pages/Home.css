@@ -6,11 +6,6 @@
 
 }
 
-.MainImg{
-    max-width: 400px;
-    clip-path: circle();
-}
-
 .MainText{
     margin-top: 50px;
     text-align: center;
@@ -22,18 +17,21 @@
     color: #29335c;
 }
 
-img{
-    max-width: 90%;
+.bottom {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+}
+
+.MainImg{
+    border-radius: 50%;
+    width: 80%;
+    max-width: 400px;
     height: auto;
     margin-left: auto;
     margin-right: auto;
     display: block;
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
-.bottom {
-    position: fixed;
-    text-align: center;
-    bottom: 0;
-    width: 100%;
-}

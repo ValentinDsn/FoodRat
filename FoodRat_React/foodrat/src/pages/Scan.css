@@ -6,17 +6,14 @@
 
 }
 
-
-
-
-p {
+.Barcode {
     margin-top: 30px;
     text-align: center;
     color: #29335c;
     font-weight: bold;
 }
 
-p.RequiredText{
+.RequiredText{
     margin-top: 30px;
     text-align: left;
     color: #29335c;
@@ -26,11 +23,15 @@ p.RequiredText{
 
 .logo_Product{
     max-height: 200px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
 }
 
 .center {
     margin-top: 50px;
-    position: absolute;
+    position: fixed;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);

@@ -54,17 +54,18 @@ header .nav-btn {
     color: var(--textColor);
     visibility: visible;
     opacity: 1;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
 }
 
 .btn-img {
-    margin: 3px 6px;
+    margin: 6px 6px;
     float: left;
 }
 
 
 header div,
 nav {
+    z-index: 10;
     display: flex;
     align-items: center;
 }
@@ -78,6 +79,13 @@ nav {
     header .nav-btn {
         visibility: visible;
         opacity: 1;
+    }
+
+    .main-btn {
+        font-size: 2rem;
+    }
+    .btn-img {
+        margin: 10px 6px;
     }
 
     header nav {

@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { AiFillHome } from "react-icons/ai";
 import { CiBarcode } from "react-icons/ci";
+import { GiFruitBowl } from "react-icons/gi";
 import "./Navbar.css";
 import { ReactComponent as Logo } from '../assets/icons/logo.svg'
 
@@ -20,9 +21,11 @@ function Navbar() {
 
     return (
             <header>
+                <Link to={"/home"}>
                 <div className="logo">
                     <Logo />
                 </div>
+                </Link>
                 <nav ref={navRef}>
 
                     <Link to={"/home"}>
@@ -37,6 +40,13 @@ function Navbar() {
                             className={"main-btn"}
                             type="button">
                             <CiBarcode className={"btn-img"}/>Scan
+                        </button>
+                    </Link>
+                    <Link to={"/allProducts"}>
+                        <button
+                            className={"main-btn"}
+                            type="button">
+                            <GiFruitBowl className={"btn-img"}/>All
                         </button>
                     </Link>
 
