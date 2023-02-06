@@ -12,6 +12,7 @@ const ItemSchema = new Schema({
     item_nutriscore_grade:String,
     item_img:String,
     item_img_small:String,
+    item_location:String,
 });
 
 module.exports = ItemSchema

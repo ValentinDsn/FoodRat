@@ -138,6 +138,7 @@ function Scan (){
                 item_nutriscore_grade:productDetails.nutriscore_grade,
                 item_img:productDetails.image_front_url,
                 item_img_small:productDetails.image_front_small_url,
+                item_location:optionSelected.value
             }).then( () =>{
                 handleClose();
                 handleCloseManualAdd();

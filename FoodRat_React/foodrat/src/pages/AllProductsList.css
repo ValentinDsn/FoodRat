@@ -3,11 +3,78 @@
     margin: 0;
     box-sizing: border-box;
     font-family: "Titillium Web", sans-serif;
+}
 
+.overflow-visible {
+    overflow: visible;
 }
 
 .MainText{
-    margin-top: 50px;
+    margin-top: 15px;
     text-align: center;
     color: #29335c;
+}
+
+.list_img {
+    border-radius:50%;
+    width:10vmin;
+    height:10vmin;
+
+}
+
+.is_expired{
+    color: blue;
+}
+
+.is_expired.green{
+    color: darkgreen;
+}
+
+.is_expired.red{
+    color: darkred;
+}
+
+.is_expired.orange{
+    color: darkorange;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+    text-align: left;
+    border-bottom: 2px solid black;
+}
+
+thead button {
+    border: 0;
+    border-radius: none;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: inherit;
+    padding: 0.5em;
+    margin-bottom: 1px;
+}
+
+thead button.ascending::after {
+    content: '👇';
+    display: inline-block;
+    margin-left: 1em;
+}
+
+thead button.descending::after {
+    content: '☝️';
+    display: inline-block;
+    margin-left: 1em;
+}
+
+tbody td {
+    padding: 0.5em;
+    border-bottom: 1px solid #ccc;
+}
+
+tbody tr:hover {
+    background-color: #eee;
 }
