@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import "./AllProductsList.css"
 import axios from "axios";
-import {format, parseISO} from 'date-fns'
+import {differenceInDays, format, parseISO} from 'date-fns'
 import TablePagination from '@mui/material/TablePagination';
+
 
     const useSortableData = (items, config = null) => {
         const [sortConfig, setSortConfig] = React.useState(config);
@@ -125,12 +126,27 @@ import TablePagination from '@mui/material/TablePagination';
                     </thead>
                     <tbody>
                     {items.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item) => (
-                        <tr key={item._id}>
+                        <tr key={item._id} className="item-row">
                             <td><img src={item.item_img_small} className={"list_img"} alt={"logo"}/></td>
                             <td>{item.item_name}</td>
                             <td>{item.item_quantity}</td>
                             <td>{item.item_location}</td>
-                            <td id={"date"} className={"is_expired"}>{format(parseISO(item.item_expiration_date), 'dd/MM/yyyy')}, {getDiff(item.item_expiration_date)}</td>
+                            <td id={"date"} className={getClassForExpiration(item.item_expiration_date)}>
+
+                                {item.item_expiration_date ? (
+                                    <>
+                                        {format(parseISO(item.item_expiration_date), 'dd/MM/yyyy')}, {getDiff(item.item_expiration_date)}
+                                    </>
+                                ) : (
+                                    "No expiration date"
+                                )}
+                            </td>
+                            <td className="item-content" >
+                                <div className="item-actions">
+                                    <button className="edit-button">Modifier</button>
+                                    <button className="delete-button">Supprimer</button>
+                                </div>
+                            </td>
                         </tr>
                     ))}
                     </tbody>
@@ -141,30 +157,55 @@ import TablePagination from '@mui/material/TablePagination';
 
     }
 
+function getClassForExpiration(expirationDate) {
+    if (!expirationDate) {
+        return "no_date"; // Couleur par défaut pour les produits sans date d'expiration
+    }
+
+    const currentDate = new Date();
+    const diffInDays = differenceInDays(parseISO(expirationDate), currentDate);
+
+    if (diffInDays < 0) {
+        return "is_expired"; // Produit périmé (Rouge)
+    } else if (diffInDays < 2) {
+        return "is_expiring_soon"; // Produit qui expire dans moins de 2 jours (Orange)
+    } else {
+        return "is_valid"; // Produit valide (Vert)
+    }
+}
+
     const getDiff = (date) => {
-        let today = (new Date()).getTime()
-        today = format((today),'dd/MM/yyyy')
-        today = new Date(today.split('/')[2],today.split('/')[1]-1,today.split('/')[0]);
+        if(date){
+            let today = (new Date()).getTime()
+            today = format((today),'dd/MM/yyyy')
+            today = new Date(today.split('/')[2],today.split('/')[1]-1,today.split('/')[0]);
 
-        date = format(parseISO(date),'dd/MM/yyyy')
-        date = new Date(date.split('/')[2],date.split('/')[1]-1,date.split('/')[0]);
+            date = format(parseISO(date),'dd/MM/yyyy')
+            date = new Date(date.split('/')[2],date.split('/')[1]-1,date.split('/')[0]);
 
-        const timeDiff = Math.abs(date.getTime() - today.getTime());
-        const diffDays = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+            const diffDays = differenceInDays(date, today)
 
-        if(date<today){
-            return ("Expired")
+            if(date<today){
+                if(Math.abs(diffDays.toString()) === 1) {
+                    return ("Expired yesterday")
+                } else {
+                    return ("Expired since " + Math.abs(diffDays.toString()) + " days")
+                }
+            }
+            if(diffDays===0){
+                return ("Expire today")
+            }
+            if(diffDays===1){
+                return ("1 Day left")
+            }
+            else {
+                return (diffDays.toString()+" Days left")
+            }
+        } else {
+            return ("No expiration date")
+        }
 
-        }
-        if(diffDays===0){
-            return ("Expire today")
-        }
-        if(diffDays===1){
-            return ("1 Day left")
-        }
-        else {
-            return (diffDays.toString()+" Days left")
-        }
+
     }
 function Home (){
     const[products,setProducts] = useState([])

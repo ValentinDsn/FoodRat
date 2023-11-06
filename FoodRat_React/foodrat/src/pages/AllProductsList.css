@@ -22,20 +22,50 @@
 
 }
 
-.is_expired{
-    color: blue;
+.is_expired {
+    color: red;
 }
 
-.is_expired.green{
-    color: darkgreen;
+.is_expiring_soon {
+    color: orange;
 }
 
-.is_expired.red{
-    color: darkred;
+.is_valid {
+    color: green;
 }
 
-.is_expired.orange{
-    color: darkorange;
+.no_date {
+    color : gray;
+}
+
+.item-row {
+    position: relative;
+}
+.item-row:hover {
+    filter: blur(5px);
+    z-index: 1;
+}
+
+.item-content {
+    width: 0;
+    padding: 0;
+}
+
+.item-row .item-actions {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0; /* Masque les boutons par défaut */
+    transition: opacity 0.3s ease; /* Ajoute une transition fluide lors du passage de la souris */
+}
+
+.item-row:hover .item-actions {
+    opacity: 1; /* Affiche les boutons lorsque la souris survole */
+    z-index: 10;
 }
 
 table {
@@ -50,7 +80,7 @@ thead th {
 
 thead button {
     border: 0;
-    border-radius: none;
+    border-radius: 0;
     font-family: inherit;
     font-weight: 700;
     font-size: inherit;

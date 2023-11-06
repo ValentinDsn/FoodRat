@@ -8,7 +8,11 @@ const apiController = require("../controllers/foodfactAPI.controllers");
 // @ts-ignore
 const express = require('express');
 // @ts-ignore
+const corsConfig = require('../middlewares/corsConfig.js'); // Importez la configuration CORS
+// @ts-ignore
 const router = express.Router({ mergeParams: true });
+// @ts-ignore
+router.use(corsConfig);
 // @ts-ignore
 const checkData = require('../middlewares/checkData');
 router.get('/', itemController.getAllItems);

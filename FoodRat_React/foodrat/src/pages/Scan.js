@@ -44,12 +44,14 @@ function Scan (){
         }
     }, [])
 
+
     const [productDetails, setproductDetails] = React.useState(initialProductDetails)
 
     useEffect(() => {
         if(productDetails!==initialProductDetails){
             Open()
         }
+
     },[productDetails, initialProductDetails])
 
     function arraysEqual(a1,a2) {
@@ -141,6 +143,23 @@ function Scan (){
                 item_location:optionSelected.value
             }).then( () =>{
                 handleClose();
+                OpenSnackBar();
+            })
+        } else {
+            OpenPopup();
+        }
+    }
+
+    const manualAdd = () => {
+        if(isFormValid()){
+            axios.post('http://localhost:3000/application/' + optionSelected.value +'/addItem', {
+                item_name: document.getElementById("name").value,
+                item_quantity: document.getElementById("quantity").value,
+                item_expiration_date: document.getElementById("expiration_date").value,
+                item_img:no_image,
+                item_img_small:no_image,
+                item_location:optionSelected.value
+            }).then( () =>{
                 handleCloseManualAdd();
                 OpenSnackBar();
             })
@@ -293,11 +312,15 @@ function Scan (){
                     </DialogActions>
                 </Dialog>
 
-                <Dialog open={openManualAdd} onClose={handleClose}>
+                <Dialog
+                    open={openManualAdd}
+                    onClose={handleClose}
+                    item_img_small={no_image}
+                >
                     <DialogTitle>Add manually product</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            No barcode or barcode not reconize, please put the informations mannually.
+                            No barcode or barcode not recognize, please put the information's manually.
                         </DialogContentText>
                     <TextField
                         style={{marginTop:50}}
@@ -330,6 +353,7 @@ function Scan (){
                         fullWidth
                         variant="standard"
                         InputLabelProps={{ shrink: true }}
+                        defaultValue={""}
                     />
                     <TextField
                         autoFocus
@@ -348,7 +372,7 @@ function Scan (){
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleCloseManualAdd}>Cancel</Button>
-                        <Button onClick={add}>Add</Button>
+                        <Button onClick={manualAdd}>Add</Button>
                     </DialogActions>
                 </Dialog>
 

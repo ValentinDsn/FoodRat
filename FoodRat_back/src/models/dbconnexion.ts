@@ -1,4 +1,4 @@
-//Variable mongoose pour utuliser le module mongoose
+//Variable mongoose pour utiliser le module mongoose
 // @ts-ignore
 const mongoose = require('mongoose');
 
