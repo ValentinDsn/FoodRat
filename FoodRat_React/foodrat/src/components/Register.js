@@ -24,6 +24,7 @@ import {toast} from "react-toastify";
 import foodWaste from '../assets/img/rat.png';
 import './Register.css'
 import React, {useState} from "react";
+const serverURL = process.env.REACT_APP_SERVER_URL;
 
 
 function Register() {
@@ -35,7 +36,7 @@ function Register() {
         try {
             const response = await axios.post(
 
-                "http://localhost:3000/application/register",
+                `${serverURL}/application/register`,
                 values
             );
             toast("Register successful!", { type: "success" });

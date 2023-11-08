@@ -18,6 +18,8 @@ import Navbar from "../components/Navbar";
 
 
 let previous_data;
+const serverURL = process.env.REACT_APP_SERVER_URL;
+
 function Scan (){
 
     const [data, setData] = React.useState("No result yet");
@@ -61,7 +63,7 @@ function Scan (){
     }
 
     const getCollectionsNames = React.useCallback(() => {
-        axios.get('http://localhost:3000/application/getAllLocations')
+        axios.get(`${serverURL}/application/getAllLocations`)
             .then(response => {
                 const response_data = response.data
                 let data_format = []
@@ -83,7 +85,7 @@ function Scan (){
     },[getCollectionsNames])
 
     const getProductInfos = (barcode) => {
-            return axios.get('http://localhost:3000/application/getProductInfoFromApi/'+ barcode)
+            return axios.get(`${serverURL}/application/getProductInfoFromApi/`+ barcode)
                 .then(response => {
                     const respData = response.data;
                     //If there is a response from the foodfact API
@@ -138,7 +140,7 @@ function Scan (){
 
     const add = () => {
         if(isFormValid()){
-            axios.post('http://localhost:3000/application/' + optionSelected.value +'/addItem', {
+            axios.post(`${serverURL}/application/` + optionSelected.value +'/addItem', {
                 item_name: document.getElementById("name").value,
                 item_barcode: barcode,
                 item_quantity: document.getElementById("quantity").value,
@@ -158,7 +160,7 @@ function Scan (){
 
     const manualAdd = () => {
         if(isFormValid()){
-            axios.post('http://localhost:3000/application/' + optionSelected.value +'/addItem', {
+            axios.post(`${serverURL}/application/` + optionSelected.value +'/addItem', {
                 item_name: document.getElementById("name").value,
                 item_quantity: document.getElementById("quantity").value,
                 item_expiration_date: document.getElementById("expiration_date").value,

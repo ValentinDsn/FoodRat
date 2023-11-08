@@ -4,6 +4,8 @@ import axios from "axios";
 import {differenceInDays, format, parseISO} from 'date-fns'
 import TablePagination from '@mui/material/TablePagination';
 import Navbar from "../components/Navbar";
+const serverURL = process.env.REACT_APP_SERVER_URL;
+
 
 
     const useSortableData = (items, config = null) => {
@@ -208,11 +210,11 @@ function getClassForExpiration(expirationDate) {
 
 
     }
-function Home (){
+function AllProducts (){
     const[products,setProducts] = useState([])
 
     const getAllItems =  async () => {
-        await axios.get('http://localhost:3000/application/')
+        await axios.get(`${serverURL}/application/`)
             .then (async response => {
                 const response_data = response.data;
                 setProducts(await response_data);
@@ -237,4 +239,4 @@ function Home (){
     )
 }
 
-export default Home
+export default AllProducts

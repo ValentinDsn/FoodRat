@@ -1,7 +1,7 @@
 // corsConfig.js
 const cors = require('cors');
 
-const allowedOrigins = ['http://localhost:3006']; // Définissez les origines autorisées
+const allowedOrigins = ['http://localhost:3006','http://192.168.1.20:3006']; // Définissez les origines autorisées
 
 const corsOptions = {
     origin: function (origin, callback) {

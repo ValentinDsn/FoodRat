@@ -18,6 +18,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import './Login.css';
+const serverURL = process.env.REACT_APP_SERVER_URL;
+
 
 function Login() {
     const signIn = useSignIn();
@@ -26,7 +28,7 @@ function Login() {
 
     const onSubmit = async (values) => {
         try {
-            const response = await axios.post("http://localhost:3000/application/login", values);
+            const response = await axios.post(`${serverURL}/application/login`, values);
             signIn({
                 token: response.data.token,
                 expiresIn: 3600,
