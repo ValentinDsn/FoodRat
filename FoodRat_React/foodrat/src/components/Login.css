@@ -1,0 +1,53 @@
+.divider:after,
+.divider:before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
+}
+.MainText{
+    font-size: 30px !important;
+    text-align: center  !important;
+    color: #29335c  !important;
+}
+.MainForm {
+    margin-top: 6rem;
+    padding-right: 3rem;
+    padding-left: 3rem;
+}
+
+.MainImg {
+    border-radius: 50%;
+    width: 80%;
+    max-width: 400px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-top: 30px;
+}
+
+@media screen and (max-width: 768px) {
+    .MainImg {
+        width: 40%; /* Vous pouvez ajuster la taille selon vos besoins */
+        max-width: none; /* Supprimez la limite de largeur maximale si nécessaire */
+        margin-top: 15px; /* Ajustez la marge supérieure selon vos besoins */
+    }
+    .MainForm {
+        margin-top: 1rem;
+        padding-right: 3rem;
+        padding-left: 3rem;
+    }
+}
+
+.h-custom {
+    height: calc(100% - 73px);
+}
+
+
+
+@media (max-width: 450px) {
+    .h-custom {
+        height: 100%;
+    }
+}

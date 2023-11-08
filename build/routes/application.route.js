@@ -1,20 +1,14 @@
 "use strict";
 // @ts-ignore
-const itemController = require("../controllers/item.controller");
+const { auth, checkData, corsConfig } = require('../middlewares');
 // @ts-ignore
-const locationController = require("../controllers/location.controller");
-// @ts-ignore
-const apiController = require("../controllers/foodfactAPI.controllers");
+const { itemController, locationController, apiController } = require('../controllers');
 // @ts-ignore
 const express = require('express');
-// @ts-ignore
-const corsConfig = require('../middlewares/corsConfig.js'); // Importez la configuration CORS
 // @ts-ignore
 const router = express.Router({ mergeParams: true });
 // @ts-ignore
 router.use(corsConfig);
-// @ts-ignore
-const checkData = require('../middlewares/checkData');
 router.get('/', itemController.getAllItems);
 router.get('/getAllLocations', locationController.getAllLocation);
 router.get('/getProductInfoFromApi/:barcode', apiController.getProductInfoFromApi);

@@ -14,6 +14,7 @@ import { default as ReactSelect } from "react-select";
 import no_image from '../assets/img/no_image.jpg';
 import {useMemo} from "react";
 import Snackbar from '@mui/material/Snackbar';
+import Navbar from "../components/Navbar";
 
 
 let previous_data;
@@ -64,7 +65,12 @@ function Scan (){
             .then(response => {
                 const response_data = response.data
                 let data_format = []
-                response_data.forEach( element => data_format.push({ label:element, value: element }));
+                response_data.forEach( element =>  {
+                    if (element !== "users") {
+                        data_format.push({ label: element, value: element });
+                    }
+                })
+
                 if(!arraysEqual(response_data,previous_data)){
                     setcollectionList(data_format);
                     previous_data=response_data.slice();
@@ -201,6 +207,7 @@ function Scan (){
 
     return(
             <div>
+                <Navbar />
                 <div className={"Meh"}></div>
                     <BarcodeScannerComponent
                     onUpdate={async (err, result) => {

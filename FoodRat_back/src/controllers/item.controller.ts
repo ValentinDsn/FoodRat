@@ -50,7 +50,7 @@ exports.getAllItems = async (req,res) => {
 
     await new Promise((resolve, reject) => {
         mongoose.connection.db.listCollections().toArray((err, names) => {
-            collectionName = names.map(collection => collection.name);
+            collectionName = names.map(collection => collection.name).filter(name => name !== "users");
             resolve(0);
         });
     });

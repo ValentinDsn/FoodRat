@@ -3,6 +3,7 @@ import "./AllProductsList.css"
 import axios from "axios";
 import {differenceInDays, format, parseISO} from 'date-fns'
 import TablePagination from '@mui/material/TablePagination';
+import Navbar from "../components/Navbar";
 
 
     const useSortableData = (items, config = null) => {
@@ -226,6 +227,7 @@ function Home (){
     return (
         <main>
         <div>
+            <Navbar />
             <h1 className={"MainText"}>List of all products:</h1>
             <ProductTable
                 products={products}

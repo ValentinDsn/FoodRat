@@ -1,28 +1,25 @@
 // @ts-ignore
-const itemController = require("../controllers/item.controller");
+const {auth,checkData, corsConfig} = require('../middlewares');
 // @ts-ignore
-const locationController = require("../controllers/location.controller");
-// @ts-ignore
-const apiController = require("../controllers/foodfactAPI.controllers");
+const {itemController,locationController, apiController, authController} = require('../controllers');
 // @ts-ignore
 const express = require('express');
 // @ts-ignore
 const router = express.Router({ mergeParams: true });
 // @ts-ignore
-const checkData = require('../middlewares/checkData');
+router.use(corsConfig);
+router.options('*', corsConfig); // Gère les requêtes OPTIONS pour toutes les routes
 
 router.get('/', itemController.getAllItems);
 router.get('/getAllLocations', locationController.getAllLocation);
 router.get('/getProductInfoFromApi/:barcode',apiController.getProductInfoFromApi)
 router.get('/:location/', checkData.checkIfCollectionExist, itemController.getAllItemsFromLocation);
 router.get('/:location/:id', checkData.checkIfCollectionExist, itemController.getItemFromLocation);
-
-
-
 router.post('/createLocation/:location', checkData.checkIfCollectionAlreadyExist,locationController.createLocation);
 router.post('/:location/addItem/', checkData.checkIfCollectionExist, itemController.createItem);
 router.post('/:location/addItemByBarcode/:barcode', checkData.checkIfCollectionExist, itemController.createItemByBarcode);
-
+router.post('/register', authController.register);
+router.post('/login', authController.login);
 router.delete('/:location/deleteItem/:id', checkData.checkIfCollectionExist, itemController.deleteItem);
 router.delete('/deleteLocation/:location', checkData.checkIfCollectionExist,locationController.deleteLocation);
 
