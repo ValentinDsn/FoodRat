@@ -9,6 +9,18 @@
     margin-top: 30px;
 }
 
+.btn-img-register {
+    margin: 6px 6px;
+    font-size: 1.5rem;
+    float: left;
+}
+
+.register-container {
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: center;
+}
+
 @media screen and (max-width: 1000px) {
     .MainImgRegister {
         width: 0%; /* Vous pouvez ajuster la taille selon vos besoins */

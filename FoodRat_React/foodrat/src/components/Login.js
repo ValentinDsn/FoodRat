@@ -11,8 +11,6 @@ import {
 } from 'mdb-react-ui-kit';
 
 import foodWaste from '../assets/img/rat.png';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.bundle';
 
 import { useSignIn } from "react-auth-kit";
 import { useFormik } from "formik";
@@ -67,7 +65,7 @@ function Login() {
     }
 
     return (
-            <MDBContainer fluid className="p-3 my-5 h-custom">
+            <MDBContainer fluid className="p-2 my-2 h-custom">
                 <h1 className="MainText">Welcome to FoodRat</h1>
                 <h2 className="SecondaryText">The anti-waste application</h2>
 
@@ -77,7 +75,7 @@ function Login() {
                             <MDBCol col='10' md='6'>
                                 <img src={foodWaste} className="MainImgLogin" alt="Sample image" />
                             </MDBCol>
-                            <MDBCol col='4' md='6' className={"MainFormLogin"}>
+                            <MDBCol col='4' md='6' className="MainFormLogin">
                                 {error && <div className="alert alert-danger">{error}</div>}
                                 <form onSubmit={formik.handleSubmit}>
                                     <MDBInput

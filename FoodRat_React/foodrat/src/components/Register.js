@@ -11,8 +11,11 @@ import {
     MDBCheckbox
 }
     from 'mdb-react-ui-kit';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.bundle';
+import { BiUser } from "react-icons/bi";
+import { AiOutlineMail } from "react-icons/ai";
+import { RiLockPasswordLine } from "react-icons/ri";
+
+
 import { useFormik } from "formik";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
@@ -76,21 +79,22 @@ function Register() {
                             <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
                             {error && <div className="alert alert-danger">{error}</div>}
                             <form onSubmit={formik.handleSubmit}>
-                                <div className="d-flex flex-row align-items-center mb-4 ">
-                                    <MDBIcon fas icon="user me-3" size='lg'/>
-                                    <MDBInput
-                                        name="firstname"
-                                        value={formik.values.firstname}
-                                        onChange={formik.handleChange}
-                                        placeholder="First name*"
-                                        size="large"
-                                        type="text"
-                                        required
-                                    />
-                                </div>
+                                    <div className="d-flex flex-row align-items-center mb-4 ">
+                                        <BiUser className={"btn-img-register"}/>
+
+                                        <MDBInput
+                                            name="firstname"
+                                            value={formik.values.firstname}
+                                            onChange={formik.handleChange}
+                                            placeholder="First name*"
+                                            size="large"
+                                            type="text"
+                                            required
+                                        />
+                                    </div>
 
                                 <div className="d-flex flex-row align-items-center mb-4 ">
-                                    <MDBIcon fas icon="user me-3" size='lg'/>
+                                    <BiUser className={"btn-img-register"}/>
                                     <MDBInput
                                         name="lastname"
                                         value={formik.values.lastname}
@@ -103,7 +107,7 @@ function Register() {
                                 </div>
 
                                 <div className="d-flex flex-row align-items-center mb-4 ">
-                                    <MDBIcon fas icon="user me-3" size='lg'/>
+                                    <AiOutlineMail className={"btn-img-register"}/>
 
                                     <MDBInput
                                     name="email"
@@ -116,7 +120,7 @@ function Register() {
                                 />
                                 </div>
                                 <div className="d-flex flex-row align-items-center mb-4 ">
-                                    <MDBIcon fas icon="user me-3" size='lg'/>
+                                    <RiLockPasswordLine className={"btn-img-register"}/>
                                     <MDBInput
                                     name="password"
                                     value={formik.values.password}
@@ -128,12 +132,11 @@ function Register() {
                                 />
                                 </div>
 
-                                <div className="d-flex flex-row align-items-center mb-4 ">
-                                    <MDBIcon fas icon="user me-3" size='lg'/>
-                                    <input value='Register' className='btn btn-primary' type='submit'/>
+                                <div className="register-container">
+                                    <input value='Register' className='mt-2 btn btn-primary' type='submit'/>
                                 </div>
-                                <div className="d-flex flex-row align-items-center mb-4 ">
-                                    <MDBIcon fas icon="user me-3" size='lg'/>
+
+                                <div className="register-container">
                                     <p className="small fw-bold mt-2 pt-1 mb-2">Already have an account? <a href="#!" onClick={login} className="link-danger">Login</a></p>
                                 </div>
 

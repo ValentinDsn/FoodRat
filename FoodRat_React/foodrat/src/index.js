@@ -7,6 +7,9 @@ import MyRouter from "./router";
 import {BrowserRouter} from "react-router-dom";
 import { AuthProvider } from 'react-auth-kit';
 
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.bundle';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <AuthProvider
