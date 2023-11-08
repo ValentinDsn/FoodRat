@@ -57,6 +57,30 @@ header .nav-btn {
     font-size: 1.4rem;
 }
 
+.main-buttons-container {
+    display: flex;
+    align-items: center;
+}
+
+.logout-button-container {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Pousse le bouton "Logout" à droite */
+}
+
+.navbar-logout-btn {
+    padding: 5px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--textColor);
+    visibility: visible;
+    opacity: 1;
+    font-size: 1.4rem;
+    margin-left: auto; /* Pousse le bouton "Logout" à droite */
+}
+
 .btn-img {
     margin: 6px 6px;
     float: left;

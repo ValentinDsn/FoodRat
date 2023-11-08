@@ -1,22 +1,10 @@
-.divider:after,
-.divider:before {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: #eee;
-}
-.MainText{
-    font-size: 30px !important;
-    text-align: center  !important;
-    color: #29335c  !important;
-}
-.MainForm {
-    margin-top: 6rem;
+.MainFormLogin {
+    margin-top: 2.5rem;
     padding-right: 3rem;
     padding-left: 3rem;
 }
 
-.MainImg {
+.MainImgLogin {
     border-radius: 50%;
     width: 80%;
     max-width: 400px;
@@ -24,26 +12,23 @@
     margin-left: auto;
     margin-right: auto;
     display: block;
-    margin-top: 30px;
+    margin-top: 0.5rem;
+
+
 }
 
 @media screen and (max-width: 768px) {
-    .MainImg {
-        width: 40%; /* Vous pouvez ajuster la taille selon vos besoins */
+    .MainImgLogin {
+        width: 0%; /* Vous pouvez ajuster la taille selon vos besoins */
         max-width: none; /* Supprimez la limite de largeur maximale si nécessaire */
         margin-top: 15px; /* Ajustez la marge supérieure selon vos besoins */
     }
-    .MainForm {
+    .MainFormLogin {
         margin-top: 1rem;
         padding-right: 3rem;
         padding-left: 3rem;
     }
 }
-
-.h-custom {
-    height: calc(100% - 73px);
-}
-
 
 
 @media (max-width: 450px) {

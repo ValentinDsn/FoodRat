@@ -1,0 +1,18 @@
+.MainImgRegister {
+    border-radius: 50%;
+    width: 80%;
+    max-width: 400px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-top: 30px;
+}
+
+@media screen and (max-width: 1000px) {
+    .MainImgRegister {
+        width: 0%; /* Vous pouvez ajuster la taille selon vos besoins */
+        max-width: none; /* Supprimez la limite de largeur maximale si nécessaire */
+        margin-top: 0px; /* Ajustez la marge supérieure selon vos besoins */
+    }
+}

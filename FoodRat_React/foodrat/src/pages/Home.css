@@ -7,14 +7,15 @@
 }
 
 .MainText{
-    margin-top: 50px;
-    text-align: center;
-    color: #29335c;
+    text-align: center  !important;
+    color: #29335c  !important;
+    font-weight: bold;
 }
 
 .SecondaryText{
-    text-align: center;
-    color: #29335c;
+    text-align: center  !important;
+    color: #29335c  !important;
+    font-weight: bold;
 }
 
 .bottom {
