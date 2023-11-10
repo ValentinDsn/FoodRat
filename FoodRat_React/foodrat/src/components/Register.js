@@ -134,7 +134,7 @@ function Register() {
                                 </div>
 
                                 <div className="register-container">
-                                    <p className="small fw-bold mt-2 pt-1 mb-2">Already have an account? <a onClick={login} className="link-danger">Login</a></p>
+                                    <p className="small fw-bold mt-2 pt-1 mb-2">Already have an account? <a href="/login" onClick={login} className="link-danger">Login</a></p>
                                 </div>
 
                             </form>
