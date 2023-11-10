@@ -15,9 +15,10 @@ import no_image from '../assets/img/no_image.jpg';
 import {useMemo} from "react";
 import Snackbar from '@mui/material/Snackbar';
 import Navbar from "../components/Navbar";
+import {useAuthHeader} from "react-auth-kit";
 
 
-let previous_data;
+//let previous_data;
 const serverURL = process.env.REACT_APP_SERVER_URL;
 
 function Scan (){
@@ -34,7 +35,7 @@ function Scan (){
 
     const [barcode, setBarcode] = React.useState(false);
 
-    const [collectionList,setcollectionList] = React.useState(false);
+    const [collectionList,setcollectionList] = React.useState([]);
 
     const [optionSelected, setOptionSelected] = React.useState(false);
 
@@ -50,6 +51,8 @@ function Scan (){
 
     const [productDetails, setproductDetails] = React.useState(initialProductDetails)
 
+    const authHeader = useAuthHeader();
+
     useEffect(() => {
         if(productDetails!==initialProductDetails){
             Open()
@@ -57,35 +60,37 @@ function Scan (){
 
     },[productDetails, initialProductDetails])
 
-    function arraysEqual(a1,a2) {
-        /* WARNING: arrays must not contain {objects} or behavior may be undefined */
+    /*function arraysEqual(a1,a2) {
+        //WARNING: arrays must not contain {objects} or behavior may be undefined
         return JSON.stringify(a1)===JSON.stringify(a2);
+    }*/
+
+    function getCollectionsNames() {
+        return new Promise((resolve, reject) => {
+            axios.get(`${serverURL}/application/getAllLocations`, { headers: { "x-access-token": authHeader() } })
+                .then(response => {
+                    const response_data = response.data;
+                    let data_format = [];
+                    response_data.forEach(element => {
+                        if (element !== "users") {
+                            data_format.push({ label: element, value: element });
+                        }
+                    });
+
+                    setcollectionList(data_format);
+                    resolve(); // Résoud la promesse avec succès
+                })
+                .catch(error => {
+                    // Gérer les erreurs, par exemple en rejetant la promesse avec l'erreur
+                    console.error("Error getting collection names:", error);
+                    reject(error);
+                });
+        });
     }
 
-    const getCollectionsNames = React.useCallback(() => {
-        axios.get(`${serverURL}/application/getAllLocations`)
-            .then(response => {
-                const response_data = response.data
-                let data_format = []
-                response_data.forEach( element =>  {
-                    if (element !== "users") {
-                        data_format.push({ label: element, value: element });
-                    }
-                })
-
-                if(!arraysEqual(response_data,previous_data)){
-                    setcollectionList(data_format);
-                    previous_data=response_data.slice();
-                }
-            })
-    },[])
-
-    useEffect(() => {
-        getCollectionsNames();
-    },[getCollectionsNames])
 
     const getProductInfos = (barcode) => {
-            return axios.get(`${serverURL}/application/getProductInfoFromApi/`+ barcode)
+            return axios.get(`${serverURL}/application/getProductInfoFromApi/`+ barcode, {headers : {"x-access-token" : authHeader()}})
                 .then(response => {
                     const respData = response.data;
                     //If there is a response from the foodfact API
@@ -122,8 +127,14 @@ function Scan (){
     };
 
     const OpenManualAdd = () => {
-        getCollectionsNames();
-        setOpenManualAdd(true);
+        getCollectionsNames()
+            .then(() => {
+                setOpenManualAdd(true); // Ouvre le pop-up une fois que getCollectionsNames a réussi
+            })
+            .catch((error) => {
+                // Gérer les erreurs, par exemple en affichant un message d'erreur
+                console.error("Error getting collection names:", error);
+            });
     };
 
     const OpenSnackBar = () => {
@@ -149,7 +160,7 @@ function Scan (){
                 item_img:productDetails.image_front_url,
                 item_img_small:productDetails.image_front_small_url,
                 item_location:optionSelected.value
-            }).then( () =>{
+            },{headers : {"x-access-token" : authHeader()}}).then( () =>{
                 handleClose();
                 OpenSnackBar();
             })
@@ -167,7 +178,7 @@ function Scan (){
                 item_img:no_image,
                 item_img_small:no_image,
                 item_location:optionSelected.value
-            }).then( () =>{
+            }, {headers : {"x-access-token" : authHeader()}}).then( () =>{
                 handleCloseManualAdd();
                 OpenSnackBar();
             })
@@ -260,6 +271,7 @@ function Scan (){
                             InputLabelProps={{ shrink: true }}
 
                         />
+                        {collectionList && (
                         <div
                         style={{marginTop:30}}>
                             <ReactSelect
@@ -275,6 +287,7 @@ function Scan (){
                                 value={optionSelected}
                             />
                         </div>
+                            )}
 
                         <TextField
                             style={{marginTop:20}}

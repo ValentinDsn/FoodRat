@@ -1,14 +1,10 @@
 import {
-    MDBBtn,
     MDBContainer,
     MDBRow,
     MDBCol,
     MDBCard,
     MDBCardBody,
-    MDBCardImage,
-    MDBInput,
-    MDBIcon,
-    MDBCheckbox
+    MDBInput
 }
     from 'mdb-react-ui-kit';
 import { BiUser } from "react-icons/bi";
@@ -21,7 +17,7 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {AxiosError} from "axios";
 import {toast} from "react-toastify";
-import foodWaste from '../assets/img/rat.png';
+import foodWaste from '../assets/img/ratv3.jpg';
 import './Register.css'
 import React, {useState} from "react";
 const serverURL = process.env.REACT_APP_SERVER_URL;
@@ -34,7 +30,7 @@ function Register() {
 
     const onSubmit = async (values) => {
         try {
-            const response = await axios.post(
+            await axios.post(
 
                 `${serverURL}/application/register`,
                 values
@@ -138,13 +134,13 @@ function Register() {
                                 </div>
 
                                 <div className="register-container">
-                                    <p className="small fw-bold mt-2 pt-1 mb-2">Already have an account? <a href="#!" onClick={login} className="link-danger">Login</a></p>
+                                    <p className="small fw-bold mt-2 pt-1 mb-2">Already have an account? <a onClick={login} className="link-danger">Login</a></p>
                                 </div>
 
                             </form>
                         </MDBCol>
                         <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex align-items-center'>
-                            <img src={foodWaste} className="MainImgRegister" alt="Sample image" />
+                            <img src={foodWaste} className="MainImgRegister" alt="Sample" />
                         </MDBCol>
                     </MDBRow>
                 </MDBCardBody>

@@ -1,7 +1,7 @@
 // corsConfig.js
 const cors = require('cors');
 
-const allowedOrigins = ['http://localhost:3006','http://192.168.1.20:3006']; // Définissez les origines autorisées
+const allowedOrigins = ['http://localhost:3006','http://192.168.1.20:3006','http://10.54.130.49:3006']; // Définissez les origines autorisées
 
 const corsOptions = {
     origin: function (origin, callback) {
@@ -12,7 +12,7 @@ const corsOptions = {
         }
     },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    allowedHeaders: 'Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization',
+    allowedHeaders: 'Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization, x-access-token',
     credentials: true,
 };
 

@@ -4,8 +4,9 @@ import axios from "axios";
 import {differenceInDays, format, parseISO} from 'date-fns'
 import TablePagination from '@mui/material/TablePagination';
 import Navbar from "../components/Navbar";
-const serverURL = process.env.REACT_APP_SERVER_URL;
+import {useAuthHeader} from 'react-auth-kit';
 
+const serverURL = process.env.REACT_APP_SERVER_URL;
 
 
     const useSortableData = (items, config = null) => {
@@ -212,9 +213,11 @@ function getClassForExpiration(expirationDate) {
     }
 function AllProducts (){
     const[products,setProducts] = useState([])
+    const authHeader = useAuthHeader();
 
+    // eslint-disable-next-line
     const getAllItems =  async () => {
-        await axios.get(`${serverURL}/application/`)
+        await axios.get(`${serverURL}/application/`, {headers : {"x-access-token" : authHeader()}})
             .then (async response => {
                 const response_data = response.data;
                 setProducts(await response_data);
@@ -223,7 +226,7 @@ function AllProducts (){
 
     useEffect(() => {
         getAllItems()
-    }, [])
+    }, [getAllItems])
 
 
     return (

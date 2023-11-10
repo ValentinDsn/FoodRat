@@ -7,10 +7,9 @@ import {
     MDBCheckbox,
     MDBCard,
     MDBCardBody,
-    MDBCardImage
 } from 'mdb-react-ui-kit';
 
-import foodWaste from '../assets/img/rat.png';
+import foodWaste from '../assets/img/ratv2.jpg';
 
 import { useSignIn } from "react-auth-kit";
 import { useFormik } from "formik";
@@ -75,7 +74,7 @@ function Login() {
                     <MDBCardBody>
                         <MDBRow>
                             <MDBCol col='10' md='6'>
-                                <img src={foodWaste} className="MainImgLogin" alt="Sample image" />
+                                <img src={foodWaste} className="MainImgLogin" alt="Sample" />
                             </MDBCol>
                             <MDBCol col='4' md='6' className="MainFormLogin">
                                 {error && <div className="alert alert-danger">{error}</div>}
@@ -86,7 +85,7 @@ function Login() {
                                         value={formik.values.email}
                                         wrapperClass='mb-4'
                                         label='Email address'
-                                        id='formControlLg'
+                                        id='emailformControl'
                                         type='email'
                                         size="lg"
                                     />
@@ -96,17 +95,17 @@ function Login() {
                                         value={formik.values.password}
                                         wrapperClass='mb-4'
                                         label='Password'
-                                        id='formControlLg'
+                                        id='passwordformControl'
                                         type='password'
                                         size="lg"
                                     />
                                     <div className="d-flex justify-content-between mb-4">
                                         <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
-                                        <a href="!#">Forgot password?</a>
+                                        <a>Forgot password?</a>
                                     </div>
                                     <div className='text-center text-md-start mt-4 pt-2'>
                                         <input value='Login' className='btn btn-primary' type='submit'/>
-                                        <p className="small fw-bold mt-2 pt-1 mb-2">Don't have an account? <a href="#!" onClick={register} className="link-danger">Register</a></p>
+                                        <p className="small fw-bold mt-2 pt-1 mb-2">Don't have an account? <a onClick={register} className="link-danger">Register</a></p>
                                     </div>
                                 </form>
                             </MDBCol>

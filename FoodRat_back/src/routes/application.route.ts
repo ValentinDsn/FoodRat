@@ -10,19 +10,21 @@ const router = express.Router({ mergeParams: true });
 router.use(corsConfig);
 router.options('*', corsConfig); // Gère les requêtes OPTIONS pour toutes les routes
 
-router.get('/', itemController.getAllItems);
-router.get('/getAllLocations', locationController.getAllLocation);
-router.get('/getProductInfoFromApi/:barcode',apiController.getProductInfoFromApi)
-router.get('/:location/', checkData.checkIfCollectionExist, itemController.getAllItemsFromLocation);
-router.get('/:location/:id', checkData.checkIfCollectionExist, itemController.getItemFromLocation);
-router.post('/createLocation/:location', checkData.checkIfCollectionAlreadyExist,locationController.createLocation);
-router.post('/:location/addItem/', checkData.checkIfCollectionExist, itemController.createItem);
-router.post('/:location/addItemByBarcode/:barcode', checkData.checkIfCollectionExist, itemController.createItemByBarcode);
+router.get('/', auth.verifyToken,itemController.getAllItems);
+router.get('/getAllLocations',auth.verifyToken, locationController.getAllLocation);
+router.get('/getProductInfoFromApi/:barcode',auth.verifyToken, apiController.getProductInfoFromApi)
+router.get('/:location/', auth.verifyToken, checkData.checkIfCollectionExist, itemController.getAllItemsFromLocation);
+router.get('/:location/:id', auth.verifyToken, checkData.checkIfCollectionExist, itemController.getItemFromLocation);
+
+router.post('/createLocation/:location', auth.verifyToken, checkData.checkIfCollectionAlreadyExist,locationController.createLocation);
+router.post('/:location/addItem/', auth.verifyToken, checkData.checkIfCollectionExist, itemController.createItem);
+router.post('/:location/addItemByBarcode/:barcode', auth.verifyToken, checkData.checkIfCollectionExist, itemController.createItemByBarcode);
 router.post('/register', authController.register);
 router.post('/login', authController.login);
-router.delete('/:location/deleteItem/:id', checkData.checkIfCollectionExist, itemController.deleteItem);
-router.delete('/deleteLocation/:location', checkData.checkIfCollectionExist,locationController.deleteLocation);
 
-router.patch('/:location/updateItem/:id', checkData.checkIfCollectionExist, itemController.updateAnItem);
+router.delete('/:location/deleteItem/:id', auth.verifyToken, checkData.checkIfCollectionExist, itemController.deleteItem);
+router.delete('/deleteLocation/:location', auth.verifyToken, checkData.checkIfCollectionExist,locationController.deleteLocation);
+
+router.patch('/:location/updateItem/:id', auth.verifyToken, checkData.checkIfCollectionExist, itemController.updateAnItem);
 
 module.exports = router;

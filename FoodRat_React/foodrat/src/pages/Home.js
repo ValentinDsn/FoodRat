@@ -1,6 +1,6 @@
 import React from 'react';
 import "./Home.css"
-import foodWaste from '../assets/img/rat.png'
+import foodWaste from '../assets/img/ratv2.jpg'
 import Navbar from "../components/Navbar";
 
 
