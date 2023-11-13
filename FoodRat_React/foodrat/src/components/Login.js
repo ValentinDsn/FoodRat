@@ -68,15 +68,15 @@ function Login() {
 
     return (
             <MDBContainer fluid className="p-2 my-2 h-custom">
-                <h1 className="MainText">Welcome to FoodRat</h1>
-                <h2 className="SecondaryText">The anti-waste application</h2>
+                <h1 className="home-main-text">Welcome to FoodRat</h1>
+                <h2 className="home-secondary-text">The anti-waste application</h2>
                 <MDBCard className='text-black m-5' style={{borderRadius: '25px'}}>
                     <MDBCardBody>
                         <MDBRow>
                             <MDBCol col='10' md='6'>
-                                <img src={foodWaste} className="MainImgLogin" alt="Sample" />
+                                <img src={foodWaste} className="login-main-img" alt="Sample" />
                             </MDBCol>
-                            <MDBCol col='4' md='6' className="MainFormLogin">
+                            <MDBCol col='4' md='6' className="login-main-form">
                                 {error && <div className="alert alert-danger">{error}</div>}
                                 <form onSubmit={formik.handleSubmit}>
                                     <MDBInput

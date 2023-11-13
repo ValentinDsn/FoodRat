@@ -1,10 +1,10 @@
-.MainFormLogin {
+.login-main-form {
     margin-top: 2.5rem;
     padding-right: 3rem;
     padding-left: 3rem;
 }
 
-.MainImgLogin {
+.login-main-img {
     border-radius: 50%;
     width: 80%;
     max-width: 400px;
@@ -18,12 +18,12 @@
 }
 
 @media screen and (max-width: 768px) {
-    .MainImgLogin {
-        width: 0%; /* Vous pouvez ajuster la taille selon vos besoins */
+    .login-main-img {
+        width: 0; /* Vous pouvez ajuster la taille selon vos besoins */
         max-width: none; /* Supprimez la limite de largeur maximale si nécessaire */
         margin-top: 15px; /* Ajustez la marge supérieure selon vos besoins */
     }
-    .MainFormLogin {
+    .login-main-form {
         margin-top: 1rem;
         padding-right: 3rem;
         padding-left: 3rem;

@@ -6,26 +6,26 @@
 
 }
 
-.MainText{
+.home-main-text{
     text-align: center  !important;
     color: #29335c  !important;
     font-weight: bold;
 }
 
-.SecondaryText{
+.home-secondary-text{
     text-align: center  !important;
     color: #29335c  !important;
     font-weight: bold;
 }
 
-.bottom {
+.home-bottom {
     position: absolute;
     bottom: 0;
     text-align: center;
     width: 100%;
 }
 
-.MainImg{
+.home-main-img{
     border-radius: 50%;
     width: 80%;
     max-width: 400px;

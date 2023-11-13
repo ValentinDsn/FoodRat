@@ -1,5 +1,7 @@
+import * as mongoose from "mongoose";
+
 const jwt = require("jsonwebtoken");
-const User = require("../models/user.model");
+const UserModel = require("../models/user.model");
 
 const config = process.env;
 
@@ -19,7 +21,9 @@ const verifyToken = (req, res, next) => {
 };
 
 const isValidated = async (req, res, next) => {
-    await User.findById(req.user.user_id).catch(err => {
+    const User = mongoose.model('users',UserModel)
+
+    await User.findById(req.user_id).catch(err => {
         if(err) return res.status(500).send('Error reading user data.');
     }).then(user => {
         if(user.isValidated) {
@@ -30,20 +34,8 @@ const isValidated = async (req, res, next) => {
     });
 }
 
-const isAdmin = async (req, res, next) => {
-    await User.findById(req.user.user_id).catch(err => {
-        if(err) return res.status(500).send('Error reading user data.');
-    }).then(user => {
-        if(user.role === 'admin') {
-            return next();
-        } else {
-            return res.status(403).send('You are not authorized to access this resource.');
-        }
-    });
-}
 
 module.exports = {
     verifyToken: verifyToken,
     isValidated: isValidated,
-    isAdmin: isAdmin
 };

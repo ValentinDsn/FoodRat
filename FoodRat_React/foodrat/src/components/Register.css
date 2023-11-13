@@ -1,4 +1,4 @@
-.MainImgRegister {
+.register-main-img {
     border-radius: 50%;
     width: 80%;
     max-width: 400px;
@@ -9,7 +9,7 @@
     margin-top: 30px;
 }
 
-.btn-img-register {
+.register-btn-img {
     margin: 6px 6px;
     font-size: 1.5rem;
     float: left;
@@ -22,9 +22,9 @@
 }
 
 @media screen and (max-width: 1000px) {
-    .MainImgRegister {
-        width: 0%; /* Vous pouvez ajuster la taille selon vos besoins */
+    .register-main-img {
+        width: 0; /* Vous pouvez ajuster la taille selon vos besoins */
         max-width: none; /* Supprimez la limite de largeur maximale si nécessaire */
-        margin-top: 0px; /* Ajustez la marge supérieure selon vos besoins */
+        margin-top: 0; /* Ajustez la marge supérieure selon vos besoins */
     }
 }

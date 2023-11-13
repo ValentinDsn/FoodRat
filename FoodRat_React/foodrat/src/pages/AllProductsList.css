@@ -9,49 +9,49 @@
     overflow: visible;
 }
 
-.MainText{
+.products-main-text{
     margin-top: 15px;
     text-align: center;
     color: #29335c;
 }
 
-.list_img {
+.products-list_img {
     border-radius:50%;
     width:10vmin;
     height:10vmin;
 
 }
 
-.is_expired {
+.products-is-expired {
     color: red;
 }
 
-.is_expiring_soon {
+.products-is-expiring-soon {
     color: orange;
 }
 
-.is_valid {
+.products-is-valid {
     color: green;
 }
 
-.no_date {
-    color : gray;
+.products-no-date {
+    color : rgb(128, 128, 128);
 }
 
-.item-row {
+.products-item-row {
     position: relative;
 }
-.item-row:hover {
+.products-item-row:hover {
     filter: blur(5px);
     z-index: 1;
 }
 
-.item-content {
+.products-item-content {
     width: 0;
     padding: 0;
 }
 
-.item-row .item-actions {
+.products-item-row .products-item-actions {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -63,7 +63,7 @@
     transition: opacity 0.3s ease; /* Ajoute une transition fluide lors du passage de la souris */
 }
 
-.item-row:hover .item-actions {
+.products-item-row:hover .products-item-actions {
     opacity: 1; /* Affiche les boutons lorsque la souris survole */
     z-index: 10;
 }
@@ -74,6 +74,7 @@ table {
 }
 
 thead th {
+    background: lightgray;
     text-align: left;
     border-bottom: 2px solid black;
 }
@@ -86,6 +87,7 @@ thead button {
     font-size: inherit;
     padding: 0.5em;
     margin-bottom: 1px;
+    background: lightgray;
 }
 
 thead button.ascending::after {
@@ -107,4 +109,38 @@ tbody td {
 
 tbody tr:hover {
     background-color: #eee;
+}
+
+
+
+.products-filter-container {
+    margin: 20px;
+    text-align: center; /* Centrer la liste déroulante si le conteneur est en pleine largeur */
+}
+
+.products-filter-container select {
+    padding: 10px;
+    margin-right: 10px; /* Ajouter de l'espace autour de la liste déroulante */
+    background-color: white;
+    border: 1px solid #ddd; /* Ajouter une bordure légère à la liste déroulante */
+    border-radius: 4px; /* Arrondir les coins de la bordure pour un look plus doux */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ajouter une ombre subtile pour un effet de profondeur */
+    font-size: 1rem; /* Taille de police standard pour la lisibilité */
+    cursor: pointer; /* Indiquer que la liste déroulante est cliquable */
+}
+
+/* Style pour les options à l'intérieur de la liste déroulante */
+.products-filter-container option {
+    padding: 10px; /* Ajouter du padding pour rendre les options plus accessibles */
+}
+
+
+/* Vous pouvez ajouter des médias queries pour rendre le conteneur réactif */
+@media (max-width: 768px) {
+    .products-filter-container {
+        margin: 10px;
+    }
+    .products-filter-container select {
+        width: auto; /* Adapter la largeur sur les écrans plus petits */
+    }
 }

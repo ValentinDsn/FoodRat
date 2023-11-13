@@ -52,8 +52,13 @@ exports.getAllLocation = async (req, res) => {
 
     LocationModel.find({ user_id: user_id })
         .then((locations) => {
-            const collectionNames = locations.map((location) => location.location_name);
-            res.status(200).json(collectionNames);
+            const collectionInfos = locations.map((location) => {
+                return {
+                    _id: location._id,
+                    name: location.location_name,
+                }
+            });
+            res.status(200).json(collectionInfos);
         })
         .catch((err) => {
             res.status(500).send({ Error: err.message });

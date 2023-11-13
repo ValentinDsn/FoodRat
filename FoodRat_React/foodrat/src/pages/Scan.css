@@ -1,19 +1,13 @@
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: "Titillium Web", sans-serif;
 
-}
 
-.Barcode {
+.scan-barcode {
     margin-top: 30px;
     text-align: center;
     color: #29335c;
     font-weight: bold;
 }
 
-.RequiredText{
+.Scan-required-text{
     margin-top: 30px;
     text-align: left;
     color: #29335c;
@@ -21,7 +15,7 @@
     font-size: small;
 }
 
-.logo_Product{
+.scan-logo-product{
     max-height: 200px;
     display: block;
     margin-left: auto;
@@ -29,7 +23,7 @@
     margin-top: 10px;
 }
 
-.center {
+.scan-center-button {
     margin-top: 50px;
     position: fixed;
     left: 50%;
@@ -37,7 +31,7 @@
     transform: translate(-50%, -50%);
 }
 
-button.ManualButton{
+button.scan-manual-button{
     background-color: transparent;
     border: 2px solid #29335c;
     color: black;
@@ -48,16 +42,26 @@ button.ManualButton{
     font-size: 16px;
 }
 
-button.ManualButton:hover {
+button.scan-manual-button:hover {
     background-color: #29335c;
     color: white;
 }
 
-.DialogContent p {
+.scan-dialog-content p {
     margin-top: 30px;
     text-align: center;
     color: #29335c;
     font-weight: bold;
+}
+
+.scan-overlay {
+    clip-path: inset(35% 15% 35% 15%);
+    background: white;
+    width: 40%;
+    padding-bottom: 30%;
+    position: absolute;
+    left: 30%;
+    opacity: 0.4;
 }
 
 video {
@@ -69,25 +73,6 @@ video {
     display: block;
 }
 
-.Meh {
-    clip-path: inset(35% 15% 35% 15%);
-    background: white;
-    width: 40%;
-    padding-bottom: 30%;
-    position: absolute;
-    left: 30%;
-    opacity: 0.4;
-}
-
-
-/*.Meh2 {*/
-/*    background: #1e293b;*/
-/*    width: 40%;*/
-/*    padding-bottom: 30%;*/
-/*    position: absolute;*/
-/*    left: 30%;*/
-/*    opacity: 0.7;*/
-/*}*/
 
 
 

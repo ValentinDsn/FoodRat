@@ -73,15 +73,14 @@ function Scan (){
                     let data_format = [];
                     response_data.forEach(element => {
                         if (element !== "users") {
-                            data_format.push({ label: element, value: element });
+                            data_format.push({ label: element.name, value: element.name });
                         }
                     });
 
                     setcollectionList(data_format);
-                    resolve(); // Résoud la promesse avec succès
+                    resolve();
                 })
                 .catch(error => {
-                    // Gérer les erreurs, par exemple en rejetant la promesse avec l'erreur
                     console.error("Error getting collection names:", error);
                     reject(error);
                 });
@@ -221,7 +220,7 @@ function Scan (){
     return(
             <div>
                 <Navbar />
-                <div className={"Meh"}></div>
+                <div className={"scan-overlay"}></div>
                     <BarcodeScannerComponent
                     onUpdate={async (err, result) => {
 
@@ -235,10 +234,10 @@ function Scan (){
                     }}
                 />
 
-                <p className={"Barcode"}>Result: {data}</p>
+                <p className={"scan-barcode"}>Result: {data}</p>
 
-                <div className={"center"}>
-                    <Button onClick={OpenManualAdd} className={"ManualButton"}>Manual Add</Button>
+                <div className={"scan-center-button"}>
+                    <Button onClick={OpenManualAdd} className={"scan-manual-button"}>Manual Add</Button>
                 </div>
 
                 <Dialog open={open} onClose={handleClose}>
@@ -248,7 +247,7 @@ function Scan (){
                             To add this product, please verify the information and add an expiration date if necessary.
                         </DialogContentText>
                         <div>
-                            <img className={"logo_Product"} src={productDetails.image_front_small_url} alt={"Logo"}/>
+                            <img className={"scan-logo-product"} src={productDetails.image_front_small_url} alt={"Logo"}/>
                         </div>
                         <TextField
                             style={{marginTop:30, marginRight:25}}
@@ -313,7 +312,7 @@ function Scan (){
                                 inputProps: { min: 0 }
                             }}
                         />
-                        <p className={"RequiredText"}>* Required</p>
+                        <p className={"Scan-required-text"}>* Required</p>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>
@@ -390,7 +389,7 @@ function Scan (){
                             inputProps: { min: 0 }
                         }}
                     />
-                    <p className={"RequiredText"}>* Required</p>
+                    <p className={"Scan-required-text"}>* Required</p>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleCloseManualAdd}>Cancel</Button>

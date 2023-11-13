@@ -8,10 +8,10 @@ function Home (){
         <main>
         <div>
             <Navbar />
-            <h1 className={"MainText"}>Welcome to FoodRat</h1>
-            <h3 className={"SecondaryText"}>The anti Food-Waste Application !</h3>
-            <img src={foodWaste} className={"MainImg"} alt="FoodWasteLogo" />
-            <div className={"bottom"}>
+            <h1 className={"home-main-text"}>Welcome to FoodRat</h1>
+            <h3 className={"home-secondary-text"}>The anti Food-Waste Application !</h3>
+            <img src={foodWaste} className={"home-main-img"} alt="FoodWasteLogo" />
+            <div className={"home-bottom"}>
                 <h4 >© Valou</h4>
             </div>
 

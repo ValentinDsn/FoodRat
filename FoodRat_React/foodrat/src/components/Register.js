@@ -77,7 +77,7 @@ function Register() {
                             {error && <div className="alert alert-danger">{error}</div>}
                             <form onSubmit={formik.handleSubmit}>
                                     <div className="d-flex flex-row align-items-center mb-4 ">
-                                        <BiUser className={"btn-img-register"}/>
+                                        <BiUser className={"register-btn-img"}/>
 
                                         <MDBInput
                                             name="firstname"
@@ -91,7 +91,7 @@ function Register() {
                                     </div>
 
                                 <div className="d-flex flex-row align-items-center mb-4 ">
-                                    <BiUser className={"btn-img-register"}/>
+                                    <BiUser className={"register-btn-img"}/>
                                     <MDBInput
                                         name="lastname"
                                         value={formik.values.lastname}
@@ -104,7 +104,7 @@ function Register() {
                                 </div>
 
                                 <div className="d-flex flex-row align-items-center mb-4 ">
-                                    <AiOutlineMail className={"btn-img-register"}/>
+                                    <AiOutlineMail className={"register-btn-img"}/>
 
                                     <MDBInput
                                     name="email"
@@ -117,7 +117,7 @@ function Register() {
                                 />
                                 </div>
                                 <div className="d-flex flex-row align-items-center mb-4 ">
-                                    <RiLockPasswordLine className={"btn-img-register"}/>
+                                    <RiLockPasswordLine className={"register-btn-img"}/>
                                     <MDBInput
                                     name="password"
                                     value={formik.values.password}
@@ -140,7 +140,7 @@ function Register() {
                             </form>
                         </MDBCol>
                         <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex align-items-center'>
-                            <img src={foodWaste} className="MainImgRegister" alt="Sample" />
+                            <img src={foodWaste} className="register-main-img" alt="Sample" />
                         </MDBCol>
                     </MDBRow>
                 </MDBCardBody>
