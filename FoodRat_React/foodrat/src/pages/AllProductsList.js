@@ -168,18 +168,18 @@ function ProductTable(props) {
 
 function getClassForExpiration(expirationDate) {
     if (!expirationDate) {
-        return "no_date"; // Couleur par défaut pour les produits sans date d'expiration
+        return "products-no-date"; // Couleur par défaut pour les produits sans date d'expiration
     }
 
     const currentDate = new Date();
     const diffInDays = differenceInDays(parseISO(expirationDate), currentDate);
 
     if (diffInDays < 0) {
-        return "is_expired"; // Produit périmé (Rouge)
+        return "products-is-expired"; // Produit périmé (Rouge)
     } else if (diffInDays < 2) {
-        return "is_expiring_soon"; // Produit qui expire dans moins de 2 jours (Orange)
+        return "products-is-expiring-soon"; // Produit qui expire dans moins de 2 jours (Orange)
     } else {
-        return "is_valid"; // Produit valide (Vert)
+        return "products-is-valid"; // Produit valide (Vert)
     }
 }
 

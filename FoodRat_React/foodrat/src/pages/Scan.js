@@ -223,7 +223,6 @@ function Scan (){
                 <div className={"scan-overlay"}></div>
                     <BarcodeScannerComponent
                     onUpdate={async (err, result) => {
-
                         if (result){
                             setBarcode(result.text)
                             getCollectionsNames();
