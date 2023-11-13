@@ -16,6 +16,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
 const serverURL = process.env.REACT_APP_SERVER_URL;
 
@@ -69,7 +70,6 @@ function Login() {
             <MDBContainer fluid className="p-2 my-2 h-custom">
                 <h1 className="MainText">Welcome to FoodRat</h1>
                 <h2 className="SecondaryText">The anti-waste application</h2>
-
                 <MDBCard className='text-black m-5' style={{borderRadius: '25px'}}>
                     <MDBCardBody>
                         <MDBRow>

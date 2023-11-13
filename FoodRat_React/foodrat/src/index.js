@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import MyRouter from "./router";
 import {BrowserRouter} from "react-router-dom";
 import { AuthProvider } from 'react-auth-kit';
+import { ToastContainer } from 'react-toastify';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
@@ -21,6 +22,17 @@ root.render(
   <BrowserRouter>
       {/*<App />*/}
       <MyRouter />
+      <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored" />
+
   </BrowserRouter>
     </AuthProvider>
 );

@@ -13,6 +13,11 @@ const ItemSchema = new Schema({
     item_img:String,
     item_img_small:String,
     item_location:String,
+    location_id : String,
+    user_id : String,
 });
 
-module.exports = ItemSchema
+// @ts-ignore
+const ItemModel = mongoose.model("Items", ItemSchema);
+
+module.exports = ItemModel;

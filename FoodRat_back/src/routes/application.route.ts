@@ -19,12 +19,13 @@ router.get('/:location/:id', auth.verifyToken, checkData.checkIfCollectionExist,
 router.post('/createLocation/:location', auth.verifyToken, checkData.checkIfCollectionAlreadyExist,locationController.createLocation);
 router.post('/:location/addItem/', auth.verifyToken, checkData.checkIfCollectionExist, itemController.createItem);
 router.post('/:location/addItemByBarcode/:barcode', auth.verifyToken, checkData.checkIfCollectionExist, itemController.createItemByBarcode);
+
+router.delete('/deleteLocation/:location', auth.verifyToken, checkData.checkIfCollectionExist,locationController.deleteLocation);
+router.delete('/:location/deleteItem/:id', auth.verifyToken, checkData.checkIfCollectionExist, itemController.deleteItem);
+
+router.patch('/:location/updateItem/:id', auth.verifyToken, checkData.checkIfCollectionExist, checkData.checkIfItemExists, itemController.updateAnItem);
+
 router.post('/register', authController.register);
 router.post('/login', authController.login);
-
-router.delete('/:location/deleteItem/:id', auth.verifyToken, checkData.checkIfCollectionExist, itemController.deleteItem);
-router.delete('/deleteLocation/:location', auth.verifyToken, checkData.checkIfCollectionExist,locationController.deleteLocation);
-
-router.patch('/:location/updateItem/:id', auth.verifyToken, checkData.checkIfCollectionExist, itemController.updateAnItem);
 
 module.exports = router;

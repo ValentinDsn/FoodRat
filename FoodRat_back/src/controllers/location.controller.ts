@@ -1,33 +1,61 @@
 // @ts-ignore
-const mongoose = require("mongoose")
-
-const database = require ("../models/dbconnexion");
+const LocationModel = require("../models/location.model");
+// @ts-ignore
+const ItemModel = require("../models/item.model");
 
 exports.createLocation = async (req, res) => {
     const collection_name = req.params.location
-    await database.db.createCollection(req.params.location).then(resp => {
-        res.status(200).send({"Location crée": req.params.location});
-    }).catch(err => {
-        res.status(500).send({"Error" : err});
+    const user_id = req.user_id;
+
+    const newLocation = new LocationModel({
+        location_name: collection_name,
+        user_id: user_id,
     });
+
+    await newLocation.save()
+        .then(() => {
+            res.status(200).send({"Location Created": req.params.location});
+        })
+        .catch((err) => {
+            res.status(500).send({"Error": err});
+        });
 };
 
 exports.deleteLocation = async (req, res) => {
     const collection_name = req.params.location
-    await mongoose.connection.db.dropCollection(req.params.location).then(resp => {
-        res.status(200).send({"Location supprimée": req.params.location});
-    }).catch(err => {
-        res.status(500).send({"Error" : err});
-    });
+    const user_id = req.user_id;
+
+
+    ItemModel.deleteMany({ location_id: req.location_id }, (err, itemResult) => {
+        if (err) {
+            return res.status(500).send({message: "Error deleting items: " + err.message});
+        }
+
+        // Vérifiez si des items ont été supprimés
+        if (itemResult.deletedCount === 0) {
+            // Put warning for no items
+        }
+    })
+
+    await LocationModel.deleteOne({ location_name: collection_name, user_id: user_id })
+        .then(() => {
+            res.status(200).send({ "Location Deleted": req.params.location });
+        })
+        .catch((err) => {
+            res.status(500).send({ "Error": err });
+        });
 };
 
-exports.getAllLocation = async (req,res) => {
-    let collectionName : string[] = [];
-    await new Promise((resolve, reject) => {
-        mongoose.connection.db.listCollections().toArray((err, names) => {
-            collectionName = names.map(collection => collection.name);
-            resolve(0);
+exports.getAllLocation = async (req, res) => {
+    const user_id = req.user_id;
+    console.log(user_id);
+
+    LocationModel.find({ user_id: user_id })
+        .then((locations) => {
+            const collectionNames = locations.map((location) => location.location_name);
+            res.status(200).json(collectionNames);
+        })
+        .catch((err) => {
+            res.status(500).send({ Error: err.message });
         });
-    });
-    res.status(200).json(collectionName);
-}
+};

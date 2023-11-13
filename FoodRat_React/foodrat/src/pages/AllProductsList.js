@@ -226,7 +226,8 @@ function AllProducts (){
 
     useEffect(() => {
         getAllItems()
-    }, [getAllItems])
+        // eslint-disable-next-line
+    }, [])
 
 
     return (

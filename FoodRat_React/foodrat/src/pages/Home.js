@@ -3,7 +3,6 @@ import "./Home.css"
 import foodWaste from '../assets/img/ratv2.jpg'
 import Navbar from "../components/Navbar";
 
-
 function Home (){
     return (
         <main>
