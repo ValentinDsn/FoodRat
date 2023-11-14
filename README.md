@@ -12,12 +12,12 @@ In the future FoodRat will notice you when items are close to their sell-by date
 ## Run
 To launch the project, you will need to clone it on your computer.
 
-# Prerequisites :
+### Prerequisites :
 - MongoDB
 - Node.js
 - React 
 
-# Launch 
+### Launch 
 For the back you need to create an .env file
 ```
 PORT=BackPort

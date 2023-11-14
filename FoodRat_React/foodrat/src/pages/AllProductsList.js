@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import "./AllProductsList.css"
-import axios from "axios";
+import axios from 'axios';
 import {differenceInDays, format, parseISO} from 'date-fns'
 import TablePagination from '@mui/material/TablePagination';
 import Navbar from "../components/Navbar";
@@ -141,8 +141,8 @@ function ProductTable(props) {
                         <TablePagination
                             sx={{
                                 ".MuiTablePagination-displayedRows, .MuiTablePagination-selectLabel": {
-                                    "margin-top": "1em",
-                                    "margin-bottom": "1em"
+                                    "marginTop": "1em",
+                                    "marginBottom": "1em"
 
                                     //"margin-top": "1em",
                                     //"margin-bottom": "1em"
@@ -224,7 +224,7 @@ function AllProducts() {
     // eslint-disable-next-line
     useEffect(() => {
         const getAllItems = async () => {
-            await axios.get(`${serverURL}/application/`, {headers: {"x-access-token": authHeader()}})
+            await axios.get(`${serverURL}/application/`, {headers: {"Authorization": authHeader()}})
 
                 .then(async response => {
                     const response_data = response.data;
@@ -233,7 +233,7 @@ function AllProducts() {
         }
 
         const getAllLocations = async () => {
-            await axios.get(`${serverURL}/application/getAllLocations`, {headers: {"x-access-token": authHeader()}})
+            await axios.get(`${serverURL}/application/getAllLocations`, {headers: {'Authorization': authHeader()}})
 
                 .then(async response => {
                     const response_data = response.data;
@@ -249,7 +249,6 @@ function AllProducts() {
 
     const filterByLocation = (event) => {
         const locationName = event.target.value;
-        console.log(locationName);
         if (locationName === 'All') {
             setFilteredProducts(products);
         } else {

@@ -1,5 +1,4 @@
 "use strict";
-import axios from 'axios';
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -10,16 +9,16 @@ import {Request, Response} from "express";
 // @ts-ignore
 const UserSchema = require("../models/user.model");
 
-exports.login = async (req, res) => {
+exports.login = async (req: Request, res: Response) => {
     try {
-        const { email, password } = req.body;
+        const {email, password} = req.body;
         const UserModel = mongoose.model('users', UserSchema);
 
         if (!(email && password)) {
             return res.status(400).send("All input is required");
         }
 
-        const user = await UserModel.findOne({ email });
+        const user = await UserModel.findOne({email});
         if (!user) {
             return res.status(400).send("User not found");
         }
@@ -33,32 +32,56 @@ exports.login = async (req, res) => {
             return res.status(400).send("Bad password");
         }
 
-        const token = jwt.sign(
-            { user_id: user._id, email },
+        const AuthToken = jwt.sign(
+            {user_id: user._id, email},
             process.env.TOKEN_KEY,
             {
-                expiresIn: "2h",
+                expiresIn: 600,
             }
         );
 
-        user.token = token;
-        return res.status(200).json(user);
+        const RefreshToken = jwt.sign(
+            {user_id: user._id, email},
+            process.env.REFRESH_TOKEN_KEY,
+            {expiresIn: 86400}
+        );
+
+        //Store access token in User
+        user.token = AuthToken;
+
+        //Response to the front
+        const response = {
+            user_id: user._id,
+            email: user.email,
+            firstname: user.firstname,
+            lastname: user.lastname,
+
+            token: AuthToken,
+            tokenType: "Bearer",
+            expiresIn: 10,
+
+            refreshToken: RefreshToken,
+            refreshTokenExpireIn: 1440
+        };
+
+        // @ts-ignore
+        return res.status(200).json(response);
     } catch (err) {
         console.log(err);
         return res.status(500).send("An error occurred");
     }
 }
 
-exports.register =async (req: Request, res: Response) => {
+exports.register = async (req: Request, res: Response) => {
     try {
-        const { email, password, firstname, lastname } = req.body;
+        const {email, password, firstname, lastname} = req.body;
         const UserModel = mongoose.model('users', UserSchema);
 
         if (!(email && password && firstname && lastname)) {
             res.status(400).send("All input is required");
         }
 
-        const oldUser = await UserModel.findOne({ email });
+        const oldUser = await UserModel.findOne({email});
         if (oldUser) {
             return res.status(409).send("User Already Exist. Please Login");
         }
@@ -72,14 +95,14 @@ exports.register =async (req: Request, res: Response) => {
         });
 
         user.token = jwt.sign(
-            { user_id: user._id, email },
+            {user_id: user._id, email},
             process.env.TOKEN_KEY,
             {
-                expiresIn: "2h",
+                expiresIn: 600,
             }
         );
 
-        user.save(function (err, savedUser) {
+        user.save(function (err) {
             if (err)
                 throw err;
             res.status(201).json(user);
@@ -88,4 +111,31 @@ exports.register =async (req: Request, res: Response) => {
     } catch (err) {
         console.log(err);
     }
-};
+}
+
+exports.refreshT = async (req: Request, res: Response) => {
+    const refreshToken = req.body.refresh;
+    if (!refreshToken) {
+        return res.status(401).json({error: "Refresh Token is required"});
+    }
+
+    try {
+        const decodedToken = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY);
+
+        const response = {
+            isSucces: true,
+            newAuthToken: jwt.sign(
+                {user_id: decodedToken.user_id, email: decodedToken.email},
+                process.env.TOKEN_KEY,
+                {expiresIn: 600}
+            ),
+            newAuthTokenExpireIn: 10,
+        };
+
+        // @ts-ignore
+        return res.status(200).json(response);
+
+    } catch (err) {
+        return res.status(403).json({error: "Invalid Refresh Token"});
+    }
+}

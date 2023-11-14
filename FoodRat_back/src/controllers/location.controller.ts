@@ -31,24 +31,26 @@ exports.deleteLocation = async (req, res) => {
             return res.status(500).send({message: "Error deleting items: " + err.message});
         }
 
-        // Vérifiez si des items ont été supprimés
         if (itemResult.deletedCount === 0) {
             // Put warning for no items
         }
     })
 
-    await LocationModel.deleteOne({ location_name: collection_name, user_id: user_id })
-        .then(() => {
+    LocationModel.deleteOne({ location_name: collection_name, user_id: user_id }, (err, locationResult) => {
+        if (err) {
+            return res.status(500).send({message: "Error deleting location : " + err.message});
+        }
+        if (locationResult.deletedCount === 0) {
+            return res.status(500).send({message: "Error deleting location : location not found" });
+        }
+        else {
             res.status(200).send({ "Location Deleted": req.params.location });
-        })
-        .catch((err) => {
-            res.status(500).send({ "Error": err });
-        });
+        }
+    })
 };
 
 exports.getAllLocation = async (req, res) => {
     const user_id = req.user_id;
-    console.log(user_id);
 
     LocationModel.find({ user_id: user_id })
         .then((locations) => {

@@ -67,7 +67,7 @@ function Scan (){
 
     function getCollectionsNames() {
         return new Promise((resolve, reject) => {
-            axios.get(`${serverURL}/application/getAllLocations`, { headers: { "x-access-token": authHeader() } })
+            axios.get(`${serverURL}/application/getAllLocations`, { headers: { "Authorization": authHeader() } })
                 .then(response => {
                     const response_data = response.data;
                     let data_format = [];
@@ -89,7 +89,7 @@ function Scan (){
 
 
     const getProductInfos = (barcode) => {
-            return axios.get(`${serverURL}/application/getProductInfoFromApi/`+ barcode, {headers : {"x-access-token" : authHeader()}})
+            return axios.get(`${serverURL}/application/getProductInfoFromApi/`+ barcode, {headers : {"Authorization" : authHeader()}})
                 .then(response => {
                     const respData = response.data;
                     //If there is a response from the foodfact API
@@ -159,7 +159,7 @@ function Scan (){
                 item_img:productDetails.image_front_url,
                 item_img_small:productDetails.image_front_small_url,
                 item_location:optionSelected.value
-            },{headers : {"x-access-token" : authHeader()}}).then( () =>{
+            },{headers : {"Authorization" : authHeader()}}).then( () =>{
                 handleClose();
                 OpenSnackBar();
             })
@@ -177,7 +177,7 @@ function Scan (){
                 item_img:no_image,
                 item_img_small:no_image,
                 item_location:optionSelected.value
-            }, {headers : {"x-access-token" : authHeader()}}).then( () =>{
+            }, {headers : {"Authorization" : authHeader()}}).then( () =>{
                 handleCloseManualAdd();
                 OpenSnackBar();
             })

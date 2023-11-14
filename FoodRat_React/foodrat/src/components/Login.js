@@ -31,13 +31,15 @@ function Login() {
             const response = await axios.post(`${serverURL}/application/login`, values);
             signIn({
                 token: response.data.token,
-                expiresIn: 3600,
+                expiresIn: response.data.expiresIn,
                 tokenType: "Bearer",
                 authState: {
-                    email: values.email,
+                    email: response.data.email,
                     firstname: response.data.firstname,
                     lastname: response.data.lastname
                 },
+                refreshToken: response.data.refreshToken,
+                refreshTokenExpireIn : response.data.refreshTokenExpireIn
             });
             toast("Login successful!", { type: "success" });
             navigate("/");
