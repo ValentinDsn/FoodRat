@@ -20,16 +20,16 @@ exports.login = async (req: Request, res: Response) => {
 
         const user = await UserModel.findOne({email});
         if (!user) {
-            return res.status(400).send("User not found");
+            return res.status(404).send("User not found");
         }
 
         if (!user.isValidated) {
-            return res.status(400).send("You are not validated please wait.");
+            return res.status(401).send("You are not validated please wait.");
         }
 
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
-            return res.status(400).send("Bad password");
+            return res.status(401).send("Incorrect password or e-mail address");
         }
 
         const AuthToken = jwt.sign(
@@ -45,9 +45,6 @@ exports.login = async (req: Request, res: Response) => {
             process.env.REFRESH_TOKEN_KEY,
             {expiresIn: 86400}
         );
-
-        //Store access token in User
-        user.token = AuthToken;
 
         //Response to the front
         const response = {
@@ -94,18 +91,10 @@ exports.register = async (req: Request, res: Response) => {
             lastname: lastname.toLowerCase()
         });
 
-        user.token = jwt.sign(
-            {user_id: user._id, email},
-            process.env.TOKEN_KEY,
-            {
-                expiresIn: 600,
-            }
-        );
-
-        user.save(function (err) {
+        user.save(function (err: any) {
             if (err)
                 throw err;
-            res.status(201).json(user);
+            res.status(201).send("Register successful!");
         });
 
     } catch (err) {
@@ -116,7 +105,7 @@ exports.register = async (req: Request, res: Response) => {
 exports.refreshT = async (req: Request, res: Response) => {
     const refreshToken = req.body.refresh;
     if (!refreshToken) {
-        return res.status(401).json({error: "Refresh Token is required"});
+        return res.status(401).send("error: Refresh Token is required");
     }
 
     try {
@@ -136,6 +125,6 @@ exports.refreshT = async (req: Request, res: Response) => {
         return res.status(200).json(response);
 
     } catch (err) {
-        return res.status(403).json({error: "Invalid Refresh Token"});
+        return res.status(403).send("error: Invalid Refresh Token");
     }
 }

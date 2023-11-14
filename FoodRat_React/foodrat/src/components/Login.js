@@ -45,7 +45,7 @@ function Login() {
             navigate("/");
         } catch (err) {
             if (err && err.response) {
-                if (err.response.status === 400) {
+                if (err.response.status === 400 || err.response.status === 401 || err.response.status === 404  ) {
                     setError(err.response.data); // Utilisez le message d'erreur renvoyé par le serveur
                 } else {
                     setError("An error occurred. Please try again.");
