@@ -1,6 +1,7 @@
+import "./Scan.css";
+
 import React, {useEffect} from 'react';
 import axios from 'axios';
-import "./Scan.css";
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -9,56 +10,57 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { components } from "react-select";
-import { default as ReactSelect } from "react-select";
+import {components} from "react-select";
+import {default as ReactSelect} from "react-select";
 import no_image from '../../assets/img/no_image.jpg';
 import {useMemo} from "react";
-import Snackbar from '@mui/material/Snackbar';
 import Navbar from "../../components/Navbar/Navbar";
 import {useAuthHeader} from "react-auth-kit";
+import {toast} from "react-toastify";
 
 
 //let previous_data;
 const serverURL = process.env.REACT_APP_SERVER_URL;
 
-function Scan (){
+function Scan() {
 
-    const [data, setData] = React.useState("No result yet");
-
-    const [open, setOpen] = React.useState(false);
-
-    const [openSnackBar, setopenSnackBar] = React.useState(false);
+    const [openAddItem, setOpenAddItem] = React.useState(false);
 
     const [openManualAdd, setOpenManualAdd] = React.useState(false);
 
+    const [openLocationAdd, setOpenLocationAdd] = React.useState(false);
+
     const [openPopup, setOpenPopup] = React.useState(false);
 
-    const [barcode, setBarcode] = React.useState(false);
+    const [locationName, setLocationName] = React.useState('');
 
-    const [collectionList,setcollectionList] = React.useState([]);
+    const [barcode, setBarcode] = React.useState("No result yet");
 
-    const [optionSelected, setOptionSelected] = React.useState(false);
+    const [collectionList, setCollectionList] = React.useState([]);
+
+    const [optionSelected, setOptionSelected] = React.useState(null);
 
     const initialProductDetails = useMemo(() => {
         return {
-            product_name:undefined,
-            nutriscore_grade:undefined,
-            image_front_url:undefined,
-            image_front_small_url:undefined,
+            product_name: undefined,
+            nutriscore_grade: undefined,
+            image_front_url: undefined,
+            image_front_small_url: undefined,
         }
     }, [])
-
 
     const [productDetails, setproductDetails] = React.useState(initialProductDetails)
 
     const authHeader = useAuthHeader();
 
+    const addNewLocationOption = {value: 'add_new', label: 'Add new...'};
+
     useEffect(() => {
-        if(productDetails!==initialProductDetails){
-            Open()
+        if (productDetails !== initialProductDetails) {
+            handleOpenAddItem()
         }
 
-    },[productDetails, initialProductDetails])
+    }, [productDetails, initialProductDetails])
 
     /*function arraysEqual(a1,a2) {
         //WARNING: arrays must not contain {objects} or behavior may be undefined
@@ -67,17 +69,17 @@ function Scan (){
 
     function getCollectionsNames() {
         return new Promise((resolve, reject) => {
-            axios.get(`${serverURL}/application/getAllLocations`, { headers: { "Authorization": authHeader() } })
+            axios.get(`${serverURL}/application/getAllLocations`, {headers: {"Authorization": authHeader()}})
                 .then(response => {
                     const response_data = response.data;
                     let data_format = [];
                     response_data.forEach(element => {
                         if (element !== "users") {
-                            data_format.push({ label: element.name, value: element.name });
+                            data_format.push({label: element.name, value: element.name});
                         }
                     });
 
-                    setcollectionList(data_format);
+                    setCollectionList([...data_format, addNewLocationOption]);
                     resolve();
                 })
                 .catch(error => {
@@ -87,45 +89,92 @@ function Scan (){
         });
     }
 
-
     const getProductInfos = (barcode) => {
-            return axios.get(`${serverURL}/application/getProductInfoFromApi/`+ barcode, {headers : {"Authorization" : authHeader()}})
-                .then(response => {
-                    const respData = response.data;
-                    //If there is a response from the foodfact API
-                    if (!(Object.keys(respData).length === 0 && Object.getPrototypeOf(respData) === Object.prototype && respData.count===1)) {
+        return axios.get(`${serverURL}/application/getProductInfoFromApi/` + barcode, {headers: {"Authorization": authHeader()}})
+            .then(response => {
+                const respData = response.data;
+                //If there is a response from the foodfact API
+                if (!(Object.keys(respData).length === 0 && Object.getPrototypeOf(respData) === Object.prototype && respData.count === 1)) {
+                    setproductDetails({
+                        product_name: respData.products[0].product_name,
+                        nutriscore_grade: respData.products[0].nutriscore_grade,
+                        image_front_url: respData.products[0].image_front_url,
+                        image_front_small_url: respData.products[0].image_front_small_url,
+                    });
+                    //If there is no image with the product
+                    if (!respData.products[0].image_front_url) {
                         setproductDetails({
                             product_name: respData.products[0].product_name,
                             nutriscore_grade: respData.products[0].nutriscore_grade,
-                            image_front_url:respData.products[0].image_front_url,
-                            image_front_small_url:respData.products[0].image_front_small_url,
-                        });
-                        //If there is no image with the product
-                        if(!respData.products[0].image_front_url){
-                            setproductDetails({
-                                product_name: respData.products[0].product_name,
-                                nutriscore_grade: respData.products[0].nutriscore_grade,
-                                image_front_small_url:no_image,
+                            image_front_small_url: no_image,
 
-                            })
-                        }
+                        })
                     }
-                })
-                //If link not available
-                .catch(() => {
-                    OpenManualAdd();
-                });
+                }
+            })
+            //If link not available
+            .catch(() => {
+                handleOpenManualAdd();
+            });
     }
-
-    const Open = () => {
-        setOpen(true);
+    const isFormValid = () => {
+        if (optionSelected.value &&
+            document.getElementById("name").value &&
+            document.getElementById("quantity").value) {
+            return true
+        }
+    }
+    const addItemFromBarcode = () => {
+        if (isFormValid()) {
+            axios.post(`${serverURL}/application/` + optionSelected.value + '/addItem', {
+                item_name: document.getElementById("name").value,
+                item_barcode: barcode,
+                item_quantity: document.getElementById("quantity").value,
+                item_expiration_date: document.getElementById("expiration_date").value,
+                item_nutriscore_grade: productDetails.nutriscore_grade,
+                item_img: productDetails.image_front_url,
+                item_img_small: productDetails.image_front_small_url,
+                item_location: optionSelected.value
+            }, {headers: {"Authorization": authHeader()}}).then(() => {
+                handleCloseAddItem();
+                toast("Item created!", {type: "success"});
+            })
+        } else {
+            handleOpenPopup();
+        }
+    }
+    const addItemManual = () => {
+        if (isFormValid()) {
+            axios.post(`${serverURL}/application/` + optionSelected.value + '/addItem', {
+                item_name: document.getElementById("name").value,
+                item_quantity: document.getElementById("quantity").value,
+                item_expiration_date: document.getElementById("expiration_date").value,
+                item_img: no_image,
+                item_img_small: no_image,
+                item_location: optionSelected.value
+            }, {headers: {"Authorization": authHeader()}}).then(() => {
+                handleCloseManualAdd();
+                toast("Item created!", {type: "success"});
+            })
+        } else {
+            handleOpenPopup();
+        }
+    }
+    const AddLocation = () => {
+        axios.post(`${serverURL}/application/createLocation/` + locationName, {},
+            {headers: {"Authorization": authHeader()}})
+            .then(() => {
+                toast("Location created!", {type: "success"});
+                getCollectionsNames().then(handleCloseLocationAdd);
+            })
+    }
+    const handleOpenAddItem = () => {
+        setOpenAddItem(true);
     };
-
-    const OpenPopup = () => {
+    const handleOpenPopup = () => {
         setOpenPopup(true);
     };
-
-    const OpenManualAdd = () => {
+    const handleOpenManualAdd = () => {
         getCollectionsNames()
             .then(() => {
                 setOpenManualAdd(true); // Ouvre le pop-up une fois que getCollectionsNames a réussi
@@ -135,72 +184,21 @@ function Scan (){
                 console.error("Error getting collection names:", error);
             });
     };
-
-    const OpenSnackBar = () => {
-        setopenSnackBar(true);
-    };
-
-    const isFormValid = () => {
-        if (optionSelected.value &&
-            document.getElementById("name").value &&
-            document.getElementById("quantity").value){
-            return true
-        }
+    const handleOpenLocationAdd = () => {
+        setOpenLocationAdd(true);
     }
-
-    const add = () => {
-        if(isFormValid()){
-            axios.post(`${serverURL}/application/` + optionSelected.value +'/addItem', {
-                item_name: document.getElementById("name").value,
-                item_barcode: barcode,
-                item_quantity: document.getElementById("quantity").value,
-                item_expiration_date: document.getElementById("expiration_date").value,
-                item_nutriscore_grade:productDetails.nutriscore_grade,
-                item_img:productDetails.image_front_url,
-                item_img_small:productDetails.image_front_small_url,
-                item_location:optionSelected.value
-            },{headers : {"Authorization" : authHeader()}}).then( () =>{
-                handleClose();
-                OpenSnackBar();
-            })
-        } else {
-            OpenPopup();
-        }
-    }
-
-    const manualAdd = () => {
-        if(isFormValid()){
-            axios.post(`${serverURL}/application/` + optionSelected.value +'/addItem', {
-                item_name: document.getElementById("name").value,
-                item_quantity: document.getElementById("quantity").value,
-                item_expiration_date: document.getElementById("expiration_date").value,
-                item_img:no_image,
-                item_img_small:no_image,
-                item_location:optionSelected.value
-            }, {headers : {"Authorization" : authHeader()}}).then( () =>{
-                handleCloseManualAdd();
-                OpenSnackBar();
-            })
-        } else {
-            OpenPopup();
-        }
-    }
-
-    const handleClose = () => {
-        setOpen(false);
+    const handleCloseAddItem = () => {
+        setOpenAddItem(false);
     };
     const handleClosePopup = () => {
         setOpenPopup(false);
     };
-
     const handleCloseManualAdd = () => {
         setOpenManualAdd(false);
     };
-
-    const handleCloseSnackBar = () => {
-        setopenSnackBar(false);
-    };
-
+    const handleCloseLocationAdd = () => {
+        setOpenLocationAdd(false);
+    }
     const Option = (props) => {
         return (
             <div>
@@ -215,141 +213,143 @@ function Scan (){
             </div>
         );
     };
+    const localisationChange = (selectedOption) => {
+        if (selectedOption.value === 'add_new') {
+            handleOpenLocationAdd();
+        } else {
+            setOptionSelected(selectedOption);
+        }
+    };
+    const newLocationName = (event) => {
+        setLocationName(event.target.value);
+    };
 
 
-    return(
-            <div>
-                <Navbar />
-                <div className={"scan-overlay"}></div>
-                    <BarcodeScannerComponent
-                    onUpdate={async (err, result) => {
-                        if (result){
-                            setBarcode(result.text)
-                            getCollectionsNames();
-                            getProductInfos(result.text);
-                            setData(result.text);
-                        }
-                        else setData("No result yet");
-                    }}
-                />
+    return (
+        <div>
+            <Navbar/>
+            <div className={"scan-overlay"}></div>
+            <BarcodeScannerComponent
+                onUpdate={async (err, result) => {
+                    if (result) {
+                        setBarcode(result.text)
+                        getCollectionsNames();
+                        getProductInfos(result.text);
+                    } else setBarcode("No result yet");
+                }}
+            />
 
-                <p className={"scan-barcode"}>Result: {data}</p>
+            <p className={"scan-barcode"}>Result: {barcode}</p>
 
-                <div className={"scan-center-button"}>
-                    <Button onClick={OpenManualAdd} className={"scan-manual-button"}>Manual Add</Button>
-                </div>
+            <div className={"scan-center-button"}>
+                <Button onClick={handleOpenManualAdd} className={"scan-manual-button"}>Manual Add</Button>
+            </div>
 
-                <Dialog open={open} onClose={handleClose}>
-                    <DialogTitle>Add product</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            To add this product, please verify the information and add an expiration date if necessary.
-                        </DialogContentText>
-                        <div>
-                            <img className={"scan-logo-product"} src={productDetails.image_front_small_url} alt={"Logo"}/>
-                        </div>
-                        <TextField
-                            style={{marginTop:30, marginRight:25}}
-                            disabled
-                            label="Barcode"
-                            defaultValue={barcode}
-                        />
-                        <TextField
-                            style={{marginTop:30}}
-                            label="Name"
-                            id="name"
-                            required={true}
-                            defaultValue={productDetails.product_name}
-                        />
-                        <TextField
-                            style={{marginTop:30}}
-                            disabled
-                            label="Nutriscore"
-                            defaultValue={productDetails.nutriscore_grade}
-                            InputLabelProps={{ shrink: true }}
+            <Dialog open={openAddItem} onClose={handleCloseAddItem}>
+                <DialogTitle>Add product</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        To add this product, please verify the information and add an expiration date if necessary.
+                    </DialogContentText>
+                    <div>
+                        <img className={"scan-logo-product"} src={productDetails.image_front_small_url} alt={"Logo"}/>
+                    </div>
+                    <TextField
+                        style={{marginTop: 30, marginRight: 25}}
+                        disabled
+                        label="Barcode"
+                        defaultValue={barcode}
+                    />
+                    <TextField
+                        style={{marginTop: 30}}
+                        label="Name"
+                        id="name"
+                        required={true}
+                        defaultValue={productDetails.product_name}
+                    />
+                    <TextField
+                        style={{marginTop: 30}}
+                        disabled
+                        label="Nutriscore"
+                        defaultValue={productDetails.nutriscore_grade}
+                        InputLabelProps={{shrink: true}}
 
-                        />
-                        {collectionList && (
+                    />
+                    {collectionList && (
                         <div
-                        style={{marginTop:30}}>
+                            style={{marginTop: 30}}>
                             <ReactSelect
                                 placeholder={"Choose a location..."}
                                 options={collectionList}
-                                closeMenuOnSelect={false}
+                                closeMenuOnSelect={true}
                                 hideSelectedOptions={false}
                                 components={{
                                     Option
                                 }}
-                                onChange={setOptionSelected}
+                                onChange={localisationChange}
                                 allowSelectAll={true}
                                 value={optionSelected}
                             />
                         </div>
-                            )}
+                    )}
 
-                        <TextField
-                            style={{marginTop:20}}
-                            autoFocus
-                            margin="dense"
-                            id="expiration_date"
-                            label="Expiration date"
-                            type="date"
-                            fullWidth
-                            variant="standard"
-                            InputLabelProps={{ shrink: true }}
-                        />
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="quantity"
-                            label="Quantity"
-                            type="number"
-                            fullWidth
-                            required={true}
-                            variant="standard"
-                            InputProps={{
-                                inputProps: { min: 0 }
-                            }}
-                        />
-                        <p className={"Scan-required-text"}>* Required</p>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button onClick={add}>Add</Button>
-                    </DialogActions>
-                </Dialog>
-
-                <Dialog open={openPopup} onClose={handleClose}>
-                    <DialogTitle>Form not complete</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            You must at least specify a name, a location and a quantity, please check the form!
-                        </DialogContentText>
-                    </DialogContent>
-
-                    <DialogActions>
-                        <Button onClick={handleClosePopup}>Ok</Button>
-                    </DialogActions>
-                </Dialog>
-
-                <Dialog
-                    open={openManualAdd}
-                    onClose={handleClose}
-                    item_img_small={no_image}
-                >
-                    <DialogTitle>Add manually product</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            No barcode or barcode not recognize, please put the information's manually.
-                        </DialogContentText>
                     <TextField
-                        style={{marginTop:50}}
+                        style={{marginTop: 20}}
+                        autoFocus
+                        margin="dense"
+                        id="expiration_date"
+                        label="Expiration date"
+                        type="date"
+                        fullWidth
+                        variant="standard"
+                        InputLabelProps={{shrink: true}}
+                    />
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="quantity"
+                        label="Quantity"
+                        type="number"
+                        fullWidth
+                        required={true}
+                        variant="standard"
+                        InputProps={{
+                            inputProps: {min: 0}
+                        }}
+                    />
+                    <p className={"Scan-required-text"}>* Required</p>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseAddItem}>Cancel</Button>
+                    <Button onClick={addItemFromBarcode}>Add</Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog open={openPopup} onClose={handleCloseAddItem}>
+                <DialogTitle>Form not complete</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        You must at least specify a name, a location and a quantity, please check the form!
+                    </DialogContentText>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button onClick={handleClosePopup}>Ok</Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog open={openManualAdd} onClose={handleCloseAddItem} item_img_small={no_image} >
+                <DialogTitle>Add manually product</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        No barcode or barcode not recognize, please put the information's manually.
+                    </DialogContentText>
+                    <TextField
+                        style={{marginTop: 50}}
                         label="Name"
                         id="name"
                         required={true}
                     />
                     <div
-                        style={{marginTop:40}}>
+                        style={{marginTop: 40}}>
                         <ReactSelect
                             placeholder={"Choose a location..."}
                             options={collectionList}
@@ -358,13 +358,13 @@ function Scan (){
                             components={{
                                 Option
                             }}
-                            onChange={setOptionSelected}
+                            onChange={localisationChange}
                             allowSelectAll={true}
                             value={optionSelected}
                         />
                     </div>
                     <TextField
-                        style={{marginTop:20}}
+                        style={{marginTop: 20}}
                         autoFocus
                         margin="dense"
                         id="expiration_date"
@@ -372,7 +372,7 @@ function Scan (){
                         type="date"
                         fullWidth
                         variant="standard"
-                        InputLabelProps={{ shrink: true }}
+                        InputLabelProps={{shrink: true}}
                         defaultValue={""}
                     />
                     <TextField
@@ -385,24 +385,37 @@ function Scan (){
                         required={true}
                         variant="standard"
                         InputProps={{
-                            inputProps: { min: 0 }
+                            inputProps: {min: 0}
                         }}
                     />
                     <p className={"Scan-required-text"}>* Required</p>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleCloseManualAdd}>Cancel</Button>
-                        <Button onClick={manualAdd}>Add</Button>
-                    </DialogActions>
-                </Dialog>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseManualAdd}>Cancel</Button>
+                    <Button onClick={addItemManual}>Add</Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog open={openLocationAdd} onClose={handleCloseLocationAdd}>
+                <DialogTitle>Add a location</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        If you want to add a location please add a name and press ok.
+                    </DialogContentText>
+                    <TextField
+                        style={{marginTop: 50}}
+                        label="Location name"
+                        id="location_name"
+                        required={true}
+                        onChange={newLocationName}
+                    />
+                </DialogContent>
 
-                <Snackbar
-                    open={openSnackBar}
-                    autoHideDuration={3000}
-                    onClose={handleCloseSnackBar}
-                    message="Item created !"
-                />
-            </div>
+                <DialogActions>
+                    <Button onClick={AddLocation}>Ok</Button>
+                    <Button onClick={handleCloseLocationAdd}>Cancel</Button>
+                </DialogActions>
+            </Dialog>
+        </div>
 
 
     )

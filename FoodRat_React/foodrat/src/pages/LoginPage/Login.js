@@ -16,7 +16,6 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
 const serverURL = process.env.REACT_APP_SERVER_URL;
 
@@ -107,7 +106,7 @@ function Login() {
                                     </div>
                                     <div className='text-center text-md-start mt-4 pt-2'>
                                         <input value='Login' className='btn btn-primary' type='submit'/>
-                                        <p className="small fw-bold mt-2 pt-1 mb-2">Don't have an account? <a href="/FoodRat_React/foodrat/src/pages/RegisterPage/Register" onClick={register} className="link-danger">Register</a></p>
+                                        <p className="small fw-bold mt-2 pt-1 mb-2">Don't have an account? <a href="/Register" onClick={register} className="link-danger">Register</a></p>
                                     </div>
                                 </form>
                             </MDBCol>

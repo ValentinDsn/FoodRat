@@ -4,6 +4,8 @@ import {AuthProvider} from "react-auth-kit";
 import refreshApi from "./API/refreshApi";
 import MainRoutes from "./Routes/router";
 import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
     return (
