@@ -6,11 +6,13 @@ const locationController = require("./location.controller")
 const apiController = require("./foodfactAPI.controllers")
 // @ts-ignore
 const authController = require("./auth.controllers")
-
+// @ts-ignore
+const userController = require("./user.controller")
 
 module.exports = {
     itemController,
     locationController,
     apiController,
-    authController
+    authController,
+    userController
 };

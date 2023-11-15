@@ -3,7 +3,6 @@ import "./AllProductsList.css"
 import axios from 'axios';
 import {differenceInDays, format, parseISO} from 'date-fns'
 import TablePagination from '@mui/material/TablePagination';
-import Navbar from "../../components/Navbar/Navbar";
 import {useAuthHeader} from 'react-auth-kit';
 
 const serverURL = process.env.REACT_APP_SERVER_URL;
@@ -260,7 +259,6 @@ function AllProducts() {
     return (
         <main>
             <div>
-                <Navbar/>
                 <h1 className={"products-main-text"}>List of all products:</h1>
                 <div className="products-filter-container">
                     <select onChange={filterByLocation} defaultValue="All">

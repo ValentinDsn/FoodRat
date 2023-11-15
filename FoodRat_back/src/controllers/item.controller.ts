@@ -18,8 +18,6 @@ exports.createItem = (req, res) => {
 
 //Create a item
 exports.createItemByBarcode = (req, res) => {
-    const ItemModel = require("../models/item.model");
-
     foodFact.getProductInfo(req.params.barcode).then((response) => {
         const item = new ItemModel({
             item_name: response.products[0]["product_name"],

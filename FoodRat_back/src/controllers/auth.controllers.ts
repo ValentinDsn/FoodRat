@@ -11,7 +11,8 @@ const UserSchema = require("../models/user.model");
 
 exports.login = async (req: Request, res: Response) => {
     try {
-        const {email, password} = req.body;
+        const email = req.body.email.toLowerCase();
+        const password = req.body.password;
         const UserModel = mongoose.model('users', UserSchema);
 
         if (!(email && password)) {
@@ -87,8 +88,8 @@ exports.register = async (req: Request, res: Response) => {
         const user = new UserModel({
             email: email.toLowerCase(),
             password: encryptedPassword,
-            firstname: firstname.toLowerCase(),
-            lastname: lastname.toLowerCase()
+            firstname: firstname.charAt(0).toUpperCase() + firstname.slice(1),
+            lastname: lastname.charAt(0).toUpperCase() + lastname.slice(1),
         });
 
         user.save(function (err: any) {

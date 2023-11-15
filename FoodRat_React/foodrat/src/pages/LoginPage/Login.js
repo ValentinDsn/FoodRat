@@ -106,7 +106,9 @@ function Login() {
                                     </div>
                                     <div className='text-center text-md-start mt-4 pt-2'>
                                         <input value='Login' className='btn btn-primary' type='submit'/>
-                                        <p className="small fw-bold mt-2 pt-1 mb-2">Don't have an account? <a href="/Register" onClick={register} className="link-danger">Register</a></p>
+                                        <p className="small fw-bold mt-2 pt-1 mb-2">Don't have an account? <a href="/register" onClick={register} className="link-danger">Register</a></p>
+                                        <p className="login-text-note">* The email is not case-sensitive.</p>
+
                                     </div>
                                 </form>
                             </MDBCol>

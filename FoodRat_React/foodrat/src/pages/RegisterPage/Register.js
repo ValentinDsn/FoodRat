@@ -134,9 +134,8 @@ function Register() {
                                 </div>
 
                                 <div className="register-container">
-                                    <p className="small fw-bold mt-2 pt-1 mb-2">Already have an account? <a href="/Login" onClick={login} className="link-danger">Login</a></p>
+                                    <p className="small fw-bold mt-2 pt-1 mb-2">Already have an account? <a href="/login" onClick={login} className="link-danger">Login</a></p>
                                 </div>
-
                             </form>
                         </MDBCol>
                         <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex align-items-center'>
@@ -145,6 +144,7 @@ function Register() {
                     </MDBRow>
                 </MDBCardBody>
             </MDBCard>
+            <p className="user-text-note">Note: The email will be put in lower case and the lastname/firstname with the first letter in upper case before sending to the server.</p>
 
         </MDBContainer>
     );

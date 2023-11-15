@@ -5,6 +5,9 @@ import refreshApi from "./API/refreshApi";
 import MainRoutes from "./Routes/router";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Navbar from "./components/Navbar/Navbar";
+import MayRenderNavbar from "./components/Navbar/mayRenderNavbar";
+import {BrowserRouter} from "react-router-dom";
 
 
 function App() {
@@ -16,7 +19,13 @@ function App() {
             cookieSecure={window.location.protocol === "https:"}
             refresh={refreshApi}
         >
-            <MainRoutes/>
+            <BrowserRouter>
+                <MayRenderNavbar>
+                    <Navbar/>
+                </MayRenderNavbar>
+                <MainRoutes/>
+            </BrowserRouter>
+
             <ToastContainer
                 position="bottom-right"
                 autoClose={5000}

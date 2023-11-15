@@ -1,11 +1,14 @@
-import { useRef } from "react";
-import { FaBars, FaTimes } from "react-icons/fa";
-import { AiFillHome } from "react-icons/ai";
-import { CiBarcode } from "react-icons/ci";
-import { GiFruitBowl } from "react-icons/gi";
-import { BiLogOut } from "react-icons/bi";
+import {useRef} from "react";
+import {FaBars, FaTimes} from "react-icons/fa";
+import {AiFillHome} from "react-icons/ai";
+import {CiBarcode} from "react-icons/ci";
+import {GiFruitBowl} from "react-icons/gi";
+import {BiLogOut} from "react-icons/bi";
+import {MdOutlineAccountCircle} from "react-icons/md";
+import {useAuthUser} from 'react-auth-kit'
+
 import "./Navbar.css";
-import { ReactComponent as Logo } from '../../assets/icons/logo.svg'
+import {ReactComponent as Logo} from '../../assets/icons/logo.svg'
 
 import {useSignOut} from "react-auth-kit";
 import {toast} from "react-toastify";
@@ -27,19 +30,21 @@ function Navbar() {
     const navigate = useNavigate();
     const logout = () => {
         signOut();
-        toast("Logout successful!", { type: "success" });
+        toast("Logout successful!", {type: "success"});
         navigate("/login");
     }
+    const auth = useAuthUser()
+    const firstName = auth() ? auth().firstname : 'Guest';
 
     return (
-            <header>
-                <Link to={"/home"}>
+        <header>
+            <Link to={"/home"}>
                 <div className="logo">
-                    <Logo />
+                    <Logo/>
                 </div>
-                </Link>
-                <nav ref={navRef}>
-                    <div className="main-buttons-container">
+            </Link>
+            <nav ref={navRef}>
+                <div className="main-buttons-container">
                     <Link to={"/home"}>
                         <button
                             className={"main-btn"}
@@ -61,29 +66,38 @@ function Navbar() {
                             <GiFruitBowl className={"btn-img"}/>All
                         </button>
                     </Link>
-                    </div>
+                </div>
 
-                    <div className="logout-button-container">
+                <div className="logout-button-container">
+                    <Link to={"/userProfile"}>
+                        <button
+                            className={"navbar-logout-btn"}
+                            type="button"
+                        >
+                            <MdOutlineAccountCircle className={"btn-img"}/>{firstName}
+                        </button>
+                    </Link>
+
                     <button
                         className={"navbar-logout-btn"}
                         type="button"
                         onClick={logout}
                     >
-                        <BiLogOut className={"btn-img"} />Logout
+                        <BiLogOut className={"btn-img"}/>Logout
                     </button>
-                    </div>
+                </div>
 
-                    <button
-                        className="nav-btn nav-close-btn"
-                        onClick={showNavbar}>
-                        <FaTimes />
-                    </button>
-                </nav>
-                <button className="nav-btn" onClick={showNavbar}>
-                    <FaBars />
+                <button
+                    className="nav-btn nav-close-btn"
+                    onClick={showNavbar}>
+                    <FaTimes/>
                 </button>
+            </nav>
+            <button className="nav-btn" onClick={showNavbar}>
+                <FaBars/>
+            </button>
 
-            </header>
+        </header>
 
 
     );

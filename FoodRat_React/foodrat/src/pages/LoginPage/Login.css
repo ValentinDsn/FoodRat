@@ -4,6 +4,11 @@
     padding-left: 3rem;
 }
 
+.login-text-note{
+    margin-top: 1rem;
+    font-size: small;
+}
+
 .login-main-img {
     border-radius: 50%;
     width: 80%;

@@ -14,7 +14,6 @@ import {components} from "react-select";
 import {default as ReactSelect} from "react-select";
 import no_image from '../../assets/img/no_image.jpg';
 import {useMemo} from "react";
-import Navbar from "../../components/Navbar/Navbar";
 import {useAuthHeader} from "react-auth-kit";
 import {toast} from "react-toastify";
 
@@ -227,13 +226,13 @@ function Scan() {
 
     return (
         <div>
-            <Navbar/>
             <div className={"scan-overlay"}></div>
             <BarcodeScannerComponent
                 onUpdate={async (err, result) => {
                     if (result) {
+                        console.log(result)
                         setBarcode(result.text)
-                        getCollectionsNames();
+                        await getCollectionsNames();
                         getProductInfos(result.text);
                     } else setBarcode("No result yet");
                 }}

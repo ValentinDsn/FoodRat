@@ -1,0 +1,11 @@
+.user-main-text{
+    text-align: center  !important;
+    color: #29335c  !important;
+    font-weight: bold;
+}
+
+.user-text-note{
+    margin-top: 1rem;
+    margin-left: 1rem;
+    font-size: small;
+}

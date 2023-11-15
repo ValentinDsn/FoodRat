@@ -1,7 +1,7 @@
 // @ts-ignore
 const {auth, corsConfig} = require('../middlewares');
 // @ts-ignore
-const {itemController,locationController, apiController, authController} = require('../controllers');
+const {itemController,locationController, apiController, authController, userController} = require('../controllers');
 // @ts-ignore
 const express = require('express');
 // @ts-ignore
@@ -15,6 +15,7 @@ router.post('/login', authController.login);
 router.post('/refresh', authController.refreshT);
 
 router.get('/', auth.verifyToken, auth.isValidated, itemController.getAllItems);
+router.get('/getUserInfo', auth.verifyToken, auth.isValidated, userController.getUserInfo);
 router.get('/getAllLocations',auth.verifyToken, auth.isValidated, locationController.getAllLocation);
 router.get('/getProductInfoFromApi/:barcode',auth.verifyToken, auth.isValidated, apiController.getProductInfoFromApi)
 router.get('/:location/', auth.verifyToken, auth.isValidated, itemController.getAllItemsFromLocation);
@@ -28,6 +29,7 @@ router.delete('/deleteLocation/:location', auth.verifyToken, auth.isValidated, l
 router.delete('/:location/deleteItem/:id', auth.verifyToken, auth.isValidated, itemController.deleteItem);
 
 router.patch('/:location/updateItem/:id', auth.verifyToken, auth.isValidated, itemController.updateAnItem);
+router.patch('/user/updateUser/', auth.verifyToken, auth.isValidated, userController.updateAnUser);
 
 
 
