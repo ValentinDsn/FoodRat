@@ -2,13 +2,13 @@ import './App.css';
 import React from 'react';
 import {AuthProvider} from "react-auth-kit";
 import refreshApi from "./API/refreshApi";
-import MainRoutes from "./router";
+import MainRoutes from "./Routes/router";
 import {ToastContainer} from "react-toastify";
 
 function App() {
     return (
         <AuthProvider
-            authType={"localstorage"}
+            authType={"cookie"}
             authName={"_auth"}
             cookieDomain={window.location.hostname}
             cookieSecure={window.location.protocol === "https:"}
@@ -25,7 +25,6 @@ function App() {
                 draggable
                 pauseOnHover
                 theme="colored"/>
-
         </AuthProvider>
 
     );

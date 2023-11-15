@@ -17,7 +17,7 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {AxiosError} from "axios";
 import {toast} from "react-toastify";
-import foodWaste from '../assets/img/ratv3.jpg';
+import foodWaste from '../../assets/img/ratv3.jpg';
 import './Register.css'
 import React, {useState} from "react";
 const serverURL = process.env.REACT_APP_SERVER_URL;
@@ -134,7 +134,7 @@ function Register() {
                                 </div>
 
                                 <div className="register-container">
-                                    <p className="small fw-bold mt-2 pt-1 mb-2">Already have an account? <a href="/login" onClick={login} className="link-danger">Login</a></p>
+                                    <p className="small fw-bold mt-2 pt-1 mb-2">Already have an account? <a href="/LoginPage/Login" onClick={login} className="link-danger">Login</a></p>
                                 </div>
 
                             </form>

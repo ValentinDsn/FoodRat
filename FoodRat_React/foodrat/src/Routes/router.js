@@ -1,12 +1,12 @@
 import {Routes, Route, BrowserRouter} from "react-router-dom";
-import React from 'react';
-// import {Home, Settings} from './routes/index'
-import Home from './pages/Home'
-import Scan from './pages/Scan'
-import AllProducts from './pages/AllProductsList'
 import {RequireAuth} from "react-auth-kit";
-import Login from "./components/Login";
-import Register from "./components/Register";
+import React from 'react';
+
+import Home from '../pages/HomePage/Home'
+import Scan from '../pages/ScanPage/Scan'
+import AllProducts from '../pages/AllProductsPage/AllProductsList'
+import Login from "../pages/LoginPage/Login";
+import Register from "../pages/RegisterPage/Register";
 
 function MainRoutes() {
     return (
@@ -20,8 +20,6 @@ function MainRoutes() {
                 <Route path="/register" element={<Register/>}/>
             </Routes>
         </BrowserRouter>
-
-
     )
 }
 

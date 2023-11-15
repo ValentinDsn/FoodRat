@@ -11,10 +11,10 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { components } from "react-select";
 import { default as ReactSelect } from "react-select";
-import no_image from '../assets/img/no_image.jpg';
+import no_image from '../../assets/img/no_image.jpg';
 import {useMemo} from "react";
 import Snackbar from '@mui/material/Snackbar';
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 import {useAuthHeader} from "react-auth-kit";
 
 

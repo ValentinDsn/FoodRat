@@ -5,7 +5,7 @@ import { CiBarcode } from "react-icons/ci";
 import { GiFruitBowl } from "react-icons/gi";
 import { BiLogOut } from "react-icons/bi";
 import "./Navbar.css";
-import { ReactComponent as Logo } from '../assets/icons/logo.svg'
+import { ReactComponent as Logo } from '../../assets/icons/logo.svg'
 
 import {useSignOut} from "react-auth-kit";
 import {toast} from "react-toastify";

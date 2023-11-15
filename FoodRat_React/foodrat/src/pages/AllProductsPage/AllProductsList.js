@@ -3,7 +3,7 @@ import "./AllProductsList.css"
 import axios from 'axios';
 import {differenceInDays, format, parseISO} from 'date-fns'
 import TablePagination from '@mui/material/TablePagination';
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 import {useAuthHeader} from 'react-auth-kit';
 
 const serverURL = process.env.REACT_APP_SERVER_URL;
