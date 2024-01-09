@@ -39,6 +39,8 @@ function Scan() {
 
     const [optionSelected, setOptionSelected] = React.useState(null);
 
+    const [isScannerActive, setIsScannerActive] = React.useState(true);
+
     const initialProductDetails = useMemo(() => {
         return {
             product_name: undefined,
@@ -168,12 +170,14 @@ function Scan() {
             })
     }
     const handleOpenAddItem = () => {
+        setIsScannerActive(false);
         setOpenAddItem(true);
     };
     const handleOpenPopup = () => {
         setOpenPopup(true);
     };
     const handleOpenManualAdd = () => {
+        setIsScannerActive(false);
         getCollectionsNames()
             .then(() => {
                 setOpenManualAdd(true); // Ouvre le pop-up une fois que getCollectionsNames a réussi
@@ -187,12 +191,14 @@ function Scan() {
         setOpenLocationAdd(true);
     }
     const handleCloseAddItem = () => {
+        setIsScannerActive(true);
         setOpenAddItem(false);
     };
     const handleClosePopup = () => {
         setOpenPopup(false);
     };
     const handleCloseManualAdd = () => {
+        setIsScannerActive(true);
         setOpenManualAdd(false);
     };
     const handleCloseLocationAdd = () => {
@@ -227,6 +233,7 @@ function Scan() {
     return (
         <div>
             <div className={"scan-overlay"}></div>
+            {isScannerActive && (
             <BarcodeScannerComponent
                 onUpdate={async (err, result) => {
                     if (result) {
@@ -237,6 +244,7 @@ function Scan() {
                     } else setBarcode("No result yet");
                 }}
             />
+            )}
 
             <p className={"scan-barcode"}>Result: {barcode}</p>
 
